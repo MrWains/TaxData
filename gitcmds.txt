@@ -1,0 +1,33 @@
+TO DOWNLOAD:
+git pull origin main
+
+
+
+TO UPLOAD:
+git add .
+git commit -m "ANYMESSAGE"
+git push origin main
+
+https://github.com/irzumjafri/hms
+
+firebase hosting:disable
+firebase init hosting
+
+firebase deploy --only hosting
+
+{
+  "hosting": {
+    "public": "build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
