@@ -51,24 +51,6 @@ useEffect(() => {
   });
 
    map.current.on('load', () => {
-    // Add a source for the state polygons.
-    // map.current.addSource('Union_Council', {
-    // type: 'geojson',
-    //   data: 'mapbox://mahasajid.199pwcco'
-    
-    // });
-    
-    // // Add a layer showing the state polygons.
-    // map.current.addLayer({
-    // 'id': 'states-layer',
-    // 'type: 'line',
-    // 'source': 'Union_Council',
-    // 'paint': {
-    // // 'fill-color': 'rgba(200, 100, 240, 0.4)',
-    // 'fill-outline-color': 'rgba(200, 100, 240, 1)'
-    // }
-    // });
-
 
 
     map.current.addLayer({
@@ -82,7 +64,7 @@ useEffect(() => {
       paint: {
         'fill-color': 'rgba(200, 100, 240, 0.4)',
           'fill-outline-color': 'rgba(200, 100, 240, 1)',
-          'fill-opacity': 0.5
+          'fill-opacity': 0
         
 
       },
@@ -94,10 +76,16 @@ useEffect(() => {
 map.current.on('click', 'states-layer', (e) => {
   console.log('event type:', e.type);
   new mapboxgl.Popup()
-  .setLngLat(e.lngLat)
+    .setLngLat(e.lngLat)
     .setHTML(e.features[0].properties.UC)
     .addTo(map.current);
+    map.current.flyTo({
+      center: e.lngLat
+      });
+    map.current.setZoom (13);
+    console.log(map.current.zoom)
     });
+   
 
   });
 });
