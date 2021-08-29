@@ -1,16 +1,6 @@
-#container {
-  height: 500px;
-  min-width: 310px;
-  max-width: 800px;
-  margin: 0 auto;
-}
-.loading {
-  margin-top: 10em;
-  text-align: center;
-  color: gray;
-}
 .App {
   text-align: center;
+  overflow: hidden;
 }
 
 .map {
@@ -18,6 +8,7 @@
   top: 0;
   bottom: 0;
   width: 100%;
+  overflow: hidden;
 }
 
 .App-logo {
@@ -52,12 +43,21 @@
   padding: 0;
   width: 1000px;
   height: 500px; */
-
+  align-items: center;
+  justify-content: center;
   width: 100%;
   min-height: 100vh;
-  padding: 0 20px;
+  /* padding: 20px; */
+  margin: 50px;
   background: #fff;
-  display: flex;
+  display: block;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.mapboxgl-popup {
+  max-width: 400px;
+  font: 12px/20px "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 
 @keyframes App-logo-spin {

@@ -49,30 +49,113 @@ useEffect(() => {
   maxBounds: bounds
 
   });
-  });
 
-  {ucdata.features.map(union => (
-    <Marker
-      key={union.properties.UC}
-      latitude={union.geometry.coordinates[1]}
-      longitude={union.geometry.coordinates[0]}
-    >
-      <button
-        className="marker-btn"
-      
-      >
-        THIS IS
+   map.current.on('load', () => {
+    // Add a source for the state polygons.
+    // map.current.addSource('Union_Council', {
+    // type: 'geojson',
+    //   data: 'mapbox://mahasajid.199pwcco'
+    
+    // });
+    
+    // // Add a layer showing the state polygons.
+    // map.current.addLayer({
+    // 'id': 'states-layer',
+    // 'type: 'line',
+    // 'source': 'Union_Council',
+    // 'paint': {
+    // // 'fill-color': 'rgba(200, 100, 240, 0.4)',
+    // 'fill-outline-color': 'rgba(200, 100, 240, 1)'
+    // }
+    // });
+
+
+
+    map.current.addLayer({
+      id: 'states-layer',
+      source: {
+      type: 'vector',
+      url: 'mapbox://mahasajid.199pwcco'
+      },
+      'source-layer': 'Union_Council-bi1iuv',
+      type: 'fill',
+      paint: {
+        'fill-color': 'rgba(200, 100, 240, 0.4)',
+          'fill-outline-color': 'rgba(200, 100, 240, 1)',
+          'fill-opacity': 0.5
         
-      </button>
-    </Marker>
-  ))}
 
+      },
+      layout: {
+      // Mapbox Style Specification layout properties
+      }
+      });
+  
+map.current.on('click', 'states-layer', (e) => {
+  console.log('event type:', e.type);
+  new mapboxgl.Popup()
+  .setLngLat(e.lngLat)
+    .setHTML(e.features[0].properties.UC)
+    .addTo(map.current);
+    });
+
+  });
+});
+
+
+     
+
+  // map.current.on('load', () => {
+  //   // Add a source for the state polygons.
+  //   map.current.addSource('Union_Council', {
+  //   type: 'geojson',
+  //     data: 'mapbox://mahasajid.199pwcco'
+    
+  //   });
+    
+  //   // Add a layer showing the state polygons.
+  //   map.current.addLayer({
+  //   'id': 'states-layer',
+  //   'type': 'line',
+  //   'source': 'Union_Council',
+  //   'paint': {
+  //   // 'fill-color': 'rgba(200, 100, 240, 0.4)',
+  //   'fill-outline-color': 'rgba(200, 100, 240, 1)'
+  //   }
+  //   });
+     
+  //   // When a click event occurs on a feature in the states layer,
+  //   // open a popup at the location of the click, with description
+  //   // HTML from the click event's properties.
+  //   map.current.on('click', 'states-layer', (e) => {
+  //   new mapboxgl.Popup()
+  //   .setLngLat(e.lngLat)
+  //   .setHTML(e.features[0].properties.UC)
+  //   .addTo(map);
+  //   });
+     
+  //   // Change the cursor to a pointer when
+  //   // the mouse is over the states layer.
+  //   map.current.on('mouseenter', 'states-layer', () => {
+  //   map.current.getCanvas().style.cursor = 'pointer';
+  //   });
+     
+  //   // Change the cursor back to a pointer
+  //   // when it leaves the states layer.
+  //   map.current.on('mouseleave', 'states-layer', () => {
+  //   map.current.getCanvas().style.cursor = '';
+  //   });
+  //   });
+  
+
+
+
+
+ 
 
   return (
     <div>
     <div ref={mapContainer} className="map-container" />
-
-      
 
 
     </div>
