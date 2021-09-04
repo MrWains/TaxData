@@ -103,7 +103,7 @@ const ReactMap = () => {
         paint: {
           'fill-color': 'rgba(200, 100, 240, 0.4)',
           'fill-outline-color': 'rgba(200, 100, 240, 1)',
-          'fill-opacity': 1
+          'fill-opacity': 0
         },
         layout: {
           // Mapbox Style Specification layout properties
@@ -121,7 +121,7 @@ const ReactMap = () => {
         paint: {
           'fill-color': 'rgba(200, 100, 240, 0.4)',
           'fill-outline-color': 'rgba(200, 100, 240, 1)',
-          'fill-opacity': 1
+          'fill-opacity': 0
         },
         layout: {
           // Mapbox Style Specification layout properties
@@ -140,7 +140,7 @@ const ReactMap = () => {
         paint: {
           'fill-color': 'rgba(200, 100, 240, 0.4)',
           'fill-outline-color': 'rgba(200, 100, 240, 1)',
-          'fill-opacity': 1
+          'fill-opacity': 0
         },
         layout: {
           // Mapbox Style Specification layout properties
@@ -177,62 +177,10 @@ const ReactMap = () => {
         .addTo(map.current);
 
      
-    });
-
-
-    
+    });    
 
 
   });
-
-
-
-
-  // map.current.on('load', () => {
-  //   // Add a source for the state polygons.
-  //   map.current.addSource('Union_Council', {
-  //   type: 'geojson',
-  //     data: 'mapbox://mahasajid.199pwcco'
-
-  //   });
-
-  //   // Add a layer showing the state polygons.
-  //   map.current.addLayer({
-  //   'id': 'states-layer',
-  //   'type': 'line',
-  //   'source': 'Union_Council',
-  //   'paint': {
-  //   // 'fill-color': 'rgba(200, 100, 240, 0.4)',
-  //   'fill-outline-color': 'rgba(200, 100, 240, 1)'
-  //   }
-  //   });
-
-  //   // When a click event occurs on a feature in the states layer,
-  //   // open a popup at the location of the click, with description
-  //   // HTML from the click event's properties.
-  //   map.current.on('click', 'states-layer', (e) => {
-  //   new mapboxgl.Popup()
-  //   .setLngLat(e.lngLat)
-  //   .setHTML(e.features[0].properties.UC)
-  //   .addTo(map);
-  //   });
-
-  //   // Change the cursor to a pointer when
-  //   // the mouse is over the states layer.
-  //   map.current.on('mouseenter', 'states-layer', () => {
-  //   map.current.getCanvas().style.cursor = 'pointer';
-  //   });
-
-  //   // Change the cursor back to a pointer
-  //   // when it leaves the states layer.
-  //   map.current.on('mouseleave', 'states-layer', () => {
-  //   map.current.getCanvas().style.cursor = '';
-  //   });
-  //   });
-
-
-
-
 
 
 
