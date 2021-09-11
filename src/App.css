@@ -76,8 +76,23 @@
   /* make stat box here and make it right */
   width: 50%;
   float: left;
+  display: flex;
+  flex-direction: column;
+}
+
+.filterbox-div {
+  display: inline-flex;
+  flex: 100%;
 }
 
 .filter-dropdown {
   float: left;
+}
+
+.statbox-div {
+  display: block;
+}
+
+.statbox-div .value-badge {
+  float: right;
 }

@@ -51,46 +51,39 @@ const ReactMap = () => {
     });
 
     map.current.on('load', () => {
+      map.current.addLayer({
+        id: 'uc-layer',
+        source: {
+          type: 'vector',
+          url: 'mapbox://mahasajid.199pwcco'
+        },
+        'source-layer': 'Union_Council-bi1iuv',
+        type: 'fill',
+        paint: {
+          'fill-color': 'rgba(200, 100, 240, 0.4)',
+          'fill-outline-color': 'rgba(200, 100, 240, 1)',
+          'fill-opacity': 0
 
 
-      // map.current.addLayer({
-      //   id: 'uc-layer',
-      //   source: {
-      //     type: 'vector',
-      //     url: 'mapbox://mahasajid.199pwcco'
-      //   },
-      //   'source-layer': 'Union_Council-bi1iuv',
-      //   type: 'fill',
-      //   paint: {
-      //     'fill-color': 'rgba(200, 100, 240, 0.4)',
-      //     'fill-outline-color': 'rgba(200, 100, 240, 1)',
-      //     'fill-opacity': 0
+        },
+        layout: {
+          // Mapbox Style Specification layout properties
+        }
+      });
 
 
-      //   },
-      //   layout: {
-      //     // Mapbox Style Specification layout properties
-      //   }
-      // });
+      map.current.on('click', 'uc-layer', (e) => {
+        console.log('event type:', e.type);
+        new mapboxgl.Popup()
+          .setLngLat(e.lngLat)
+          .setHTML(e.features[0].properties.UC)
+          .addTo(map.current);
+        map.current.flyTo({
+          center: e.lngLat
+        });
 
-
-      // map.current.on('click', 'uc-layer', (e) => {
-      //   console.log('event type:', e.type);
-      //   new mapboxgl.Popup()
-      //     .setLngLat(e.lngLat)
-      //     .setHTML(e.features[0].properties.UC)
-      //     .addTo(map.current);
-      //   map.current.flyTo({
-      //     center: e.lngLat
-      //   });
-      //   map.current.setZoom(10);
-      //   console.log(map.current.zoom)
-      //   map.current.off('click', 'uc-layer', (e) => {
-      //     map.current.setZoom(0);
-      //   });
-      // });
-
-
+      
+      });
 
       map.current.addLayer({
         id: 'sector-b-layer',
@@ -128,7 +121,6 @@ const ReactMap = () => {
         }
       });
 
-
       map.current.addLayer({
         id: 'sector-c-layer',
         source: {
@@ -149,24 +141,27 @@ const ReactMap = () => {
 
     });
 
+
+
     map.current.on('click', 'sector-b-layer', (e) => {
       console.log('event type:', e.type);
+      console.log(e.features[0].properties.name, "hi")
+   
+      
       new mapboxgl.Popup()
         .setLngLat(e.lngLat)
-        .setHTML("Plot No. " + e.features[0].properties.Name)
-        .addTo(map.current);
-
-     
+        .setHTML(  "Plot No. " + e.features[0].properties.Name)
+        .addTo(map.current);   
     });
 
     map.current.on('click', 'sector-a-layer', (e) => {
       console.log('event type:', e.type);
+      
       new mapboxgl.Popup()
         .setLngLat(e.lngLat)
-        .setHTML("Plot No. " + e.features[0].properties.Name)
+        .setHTML(  "Plot No. " + e.features[0].properties.Name)
         .addTo(map.current);
 
-     
     });
 
     map.current.on('click', 'sector-c-layer', (e) => {
@@ -175,11 +170,8 @@ const ReactMap = () => {
         .setLngLat(e.lngLat)
         .setHTML("Plot No. " + e.features[0].properties.Name)
         .addTo(map.current);
-
-     
+   
     });    
-
-
   });
 
 
@@ -191,11 +183,6 @@ const ReactMap = () => {
     </div>
   );
 
-
-
 };
-
-
-
 
 export default ReactMap;
