@@ -183,7 +183,6 @@ const ReactMap = () => {
   });
 
 
-
   return (
     <div>
       <div ref={mapContainer} className="map-container" />
