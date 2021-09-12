@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^12.8.3",
     "@types/highcharts": "^7.0.0",
     "bootstrap": "^5.1.0",
+    "d3": "^7.0.1",
     "dotenv": "^10.0.0",
     "geojson": "^0.5.0",
     "google-map-react": "^2.1.10",
