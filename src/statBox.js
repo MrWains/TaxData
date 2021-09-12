@@ -10,77 +10,41 @@ import ListGroupItem from 'react-bootstrap/ListGroupItem';
 import Badge from 'react-bootstrap/Badge';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-// importing local DB and d3 to manipulate csv
-import * as d3 from 'd3';
-import localDB from './Final_Df.csv';
 
-const StatBoxLoader = () => {
+const StatBoxLoader = (listOfLists) => {
     // declaring react states
-    const [UC_Name, set_UC_Name] = useState([])
-    const [sum_2021, set_sum_2021] = useState([])
-    const [Sum_Per_Area_2021, set_Sum_Per_Area_2021] = useState([])
-    const [Sum_Per_Shape_Area_2021, set_Sum_Per_Shape_Area_2021] = useState([])
-    const [sum_2012, set_sum_2012] = useState([])
-    const [Sum_Per_Area_2012, set_Sum_Per_Area_2012] = useState([])
-    const [Sum_Per_Shape_Area_2012, set_Sum_Per_Shape_Area_2012] = useState([])
-    const [New_Construction_Sum, set_New_Construction_Sum] = useState([])
-    const [Potential_Deconstruction_Sum, set_Potential_Deconstruction_Sum] = useState([])
-    const [New_Construction_Sum_Per_Area, set_New_Construction_Sum_Per_Area] = useState([])
-    const [New_Construction_Sum_Per_Shape_Area, set_New_Construction_Sum_Per_Shape_Area] = useState([])
-    const [Potential_Deconstruction_Sum_Per_Area, set_Potential_Deconstruction_Sum_Per_Area] = useState([])
-    const [Potential_Deconstruction_Sum_Per_Shape_Area, set_Potential_Deconstruction_Sum_Per_Shape_Area] = useState([])
+    const [UC_Name, set_UC_Name] = useState(listOfLists[0])
+    const [sum_2021, set_sum_2021] = useState(listOfLists[1])
+    const [Sum_Per_Area_2021, set_Sum_Per_Area_2021] = useState(listOfLists[2])
+    const [Sum_Per_Shape_Area_2021, set_Sum_Per_Shape_Area_2021] = useState(listOfLists[3])
+    const [sum_2012, set_sum_2012] = useState(listOfLists[4])
+    const [Sum_Per_Area_2012, set_Sum_Per_Area_2012] = useState(listOfLists[5])
+    const [Sum_Per_Shape_Area_2012, set_Sum_Per_Shape_Area_2012] = useState(listOfLists[6])
+    const [New_Construction_Sum, set_New_Construction_Sum] = useState(listOfLists[7])
+    const [Potential_Deconstruction_Sum, set_Potential_Deconstruction_Sum] = useState(listOfLists[8])
+    const [New_Construction_Sum_Per_Area, set_New_Construction_Sum_Per_Area] = useState(listOfLists[9])
+    const [New_Construction_Sum_Per_Shape_Area, set_New_Construction_Sum_Per_Shape_Area] = useState(listOfLists[10])
+    const [Potential_Deconstruction_Sum_Per_Area, set_Potential_Deconstruction_Sum_Per_Area] = useState(listOfLists[11])
+    const [Potential_Deconstruction_Sum_Per_Shape_Area, set_Potential_Deconstruction_Sum_Per_Shape_Area] = useState(listOfLists[12])
 
-    //reading localDB as csv file
-    d3.csv(localDB).then(function(localDB) 
-    {
-        let list_UC_Name = []
-        let list_sum_2021 = []
-        let list_Sum_Per_Area_2021 = [] 
-        let list_Sum_Per_Shape_Area_2021 = [] 
-        let list_sum_2012 = []
-        let list_Sum_Per_Area_2012 = [] 
-        let list_Sum_Per_Shape_Area_2012 = [] 
-        let list_New_Construction_Sum = []
-        let list_Potential_Deconstruction_Sum = [] 
-        let list_New_Construction_Sum_Per_Area = []
-        let list_New_Construction_Sum_Per_Shape_Area =[]
-        let list_Potential_Deconstruction_Sum_Per_Area = []
-        let list_Potential_Deconstruction_Sum_Per_Shape_Area = []
 
-        localDB.map((item) => {
-            list_UC_Name.concat(item.UC.toString())
-            list_sum_2021.concat(item.Sum_2021.toString())
-            list_Sum_Per_Area_2021.concat(item.Sum_Per_Area_2021.toString()) 
-            list_Sum_Per_Shape_Area_2021.concat(item.Sum_Per_Shape_Area_2021.toString()) 
-            list_sum_2012.concat(item.Sum_2012.toString())
-            list_Sum_Per_Area_2012.concat(item.Sum_Per_Area_2012.toString()) 
-            list_Sum_Per_Shape_Area_2012.concat(item.Sum_Per_Shape_Area_2012.toString()) 
-            list_New_Construction_Sum.concat(item.New_Construction_Sum.toString())
-            list_Potential_Deconstruction_Sum.concat(item.Potential_Deconstruction_Sum.toString()) 
-            list_New_Construction_Sum_Per_Area.concat(item.New_Construction_Sum_Per_Area.toString())
-            list_New_Construction_Sum_Per_Shape_Area.concat(item.New_Construction_Sum_Per_Shape_Area.toString())
-            list_Potential_Deconstruction_Sum_Per_Area.concat(item.Potential_Deconstruction_Sum_Per_Area.toString())
-            list_Potential_Deconstruction_Sum_Per_Shape_Area.concat(item.Potential_Deconstruction_Sum_Per_Shape_Area.toString())
-        })
+    // console.log(typeof(UC_Name))
+    
 
-        // now that all items have been read into lists, update states
-        set_UC_Name(list_UC_Name)
-        set_sum_2021(list_sum_2021)
-        set_Sum_Per_Area_2021(list_Sum_Per_Area_2021)
-        set_Sum_Per_Shape_Area_2021(list_Sum_Per_Shape_Area_2021)
-        set_sum_2012(list_sum_2012)
-        set_Sum_Per_Area_2012(list_Sum_Per_Area_2012)
-        set_Sum_Per_Shape_Area_2012(list_Sum_Per_Shape_Area_2012)
-        set_New_Construction_Sum(list_New_Construction_Sum)
-        set_Potential_Deconstruction_Sum(list_Potential_Deconstruction_Sum)
-        set_New_Construction_Sum_Per_Area(list_New_Construction_Sum_Per_Area)
-        set_New_Construction_Sum_Per_Shape_Area(list_New_Construction_Sum_Per_Shape_Area)
-        set_Potential_Deconstruction_Sum_Per_Area(list_Potential_Deconstruction_Sum_Per_Area)
-        set_Potential_Deconstruction_Sum_Per_Shape_Area(list_Potential_Deconstruction_Sum_Per_Shape_Area)
-    }).catch(function(err) 
-    {
-        throw err;
-    })
+    // const UCNAMEARRAY = Object.values(UC_Name);
+    // // console.log(UCNAMEARRAY)
+
+    // console.log(UC_Name)
+    // console.log(UC_Name.length)
+
+    // while (UC_Name.length == 0)
+    // {
+    //     console.log(UC_Name.length)
+    // };
+
+
+    // console.log(UC_Name && UC_Name[0]);
+
 
 
     return (
@@ -149,42 +113,42 @@ const StatBoxLoader = () => {
                             <ListGroupItem variant="primary">
                                 Constructed Units:
                                 <Badge class = "value-badge" >
-                                    {sum_2021[0]}
+                                    { UCNAMEARRAY[0] }
                                 </Badge>
                             </ListGroupItem>
 
                             <ListGroupItem variant="primary">
                                 Deconstructed Units:
                                 <Badge class = "value-badge" >
-                                    {sum_2021[0]}
+                                    { UC_Name[1] }
                                 </Badge>
                             </ListGroupItem>
 
                             <ListGroupItem variant="primary">
                                 Construction / Unit Area:
                                 <Badge class = "value-badge" >
-                                    {sum_2021[0]}
+                                    { UC_Name[2] }
                                 </Badge>
                             </ListGroupItem>
 
                             <ListGroupItem variant="primary">
                             Deconstruction / Unit Area:
                                 <Badge class = "value-badge">
-                                    {sum_2021[0]}
+                                    { UC_Name[3] }
                                 </Badge>
                             </ListGroupItem>
 
                             <ListGroupItem variant="primary">
                                 Total Tax Revenue:
                                 <Badge class = "value-badge" >
-                                    {sum_2021[0]}
+                                    { 227 }
                                 </Badge>
                             </ListGroupItem>
                             
                             <ListGroupItem variant="primary">
                             Tax Revenue / Unit Area:
                                 <Badge class = "value-badge">
-                                    {sum_2021[0]}
+                                    { 221 }
                                 </Badge>
                             </ListGroupItem>
 
