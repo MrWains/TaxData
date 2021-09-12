@@ -15,50 +15,23 @@ const StatBoxLoader = (listOfLists) => {
   const [UC_Name, set_UC_Name] = useState(listOfLists[0]);
   const [sum_2021, set_sum_2021] = useState(listOfLists[1]);
   const [Sum_Per_Area_2021, set_Sum_Per_Area_2021] = useState(listOfLists[2]);
-  const [Sum_Per_Shape_Area_2021, set_Sum_Per_Shape_Area_2021] = useState(
-    listOfLists[3]
-  );
+  const [Sum_Per_Shape_Area_2021, set_Sum_Per_Shape_Area_2021] = useState(listOfLists[3]);
   const [sum_2012, set_sum_2012] = useState(listOfLists[4]);
   const [Sum_Per_Area_2012, set_Sum_Per_Area_2012] = useState(listOfLists[5]);
-  const [Sum_Per_Shape_Area_2012, set_Sum_Per_Shape_Area_2012] = useState(
-    listOfLists[6]
-  );
-  const [New_Construction_Sum, set_New_Construction_Sum] = useState(
-    listOfLists[7]
-  );
-  const [Potential_Deconstruction_Sum, set_Potential_Deconstruction_Sum] =
-    useState(listOfLists[8]);
-  const [New_Construction_Sum_Per_Area, set_New_Construction_Sum_Per_Area] =
-    useState(listOfLists[9]);
-  const [
-    New_Construction_Sum_Per_Shape_Area,
-    set_New_Construction_Sum_Per_Shape_Area,
-  ] = useState(listOfLists[10]);
-  const [
-    Potential_Deconstruction_Sum_Per_Area,
-    set_Potential_Deconstruction_Sum_Per_Area,
-  ] = useState(listOfLists[11]);
-  const [
-    Potential_Deconstruction_Sum_Per_Shape_Area,
-    set_Potential_Deconstruction_Sum_Per_Shape_Area,
-  ] = useState(listOfLists[12]);
+  const [Sum_Per_Shape_Area_2012, set_Sum_Per_Shape_Area_2012] = useState(listOfLists[6]);
+  const [New_Construction_Sum, set_New_Construction_Sum] = useState(listOfLists[7]);
+  const [Potential_Deconstruction_Sum, set_Potential_Deconstruction_Sum] =useState(listOfLists[8]);
+  const [New_Construction_Sum_Per_Area, set_New_Construction_Sum_Per_Area] =useState(listOfLists[9]);
+  const [New_Construction_Sum_Per_Shape_Area, set_New_Construction_Sum_Per_Shape_Area] = useState(listOfLists[10]);
+  const [Potential_Deconstruction_Sum_Per_Area, set_Potential_Deconstruction_Sum_Per_Area] = useState(listOfLists[11]);
+  const [Potential_Deconstruction_Sum_Per_Shape_Area, set_Potential_Deconstruction_Sum_Per_Shape_Area] = useState(listOfLists[12]);
 
-  // console.log(typeof(UC_Name))
-
-  // const UCNAMEARRAY = Object.values(UC_Name);
-  // // console.log(UCNAMEARRAY)
-
+  /////////////// Juggar code
   const [uc0, set_uc0] = useState("");
   setTimeout(function () {
     set_uc0(UC_Name[0]);
   }, 200);
-
-  // while (UC_Name.length == 0)
-  // {
-  //     console.log(UC_Name.length)
-  // };
-
-  // console.log(UC_Name && UC_Name[0]);
+  /////////////// Juggar code
 
   return (
     <body>
@@ -120,32 +93,32 @@ const StatBoxLoader = (listOfLists) => {
 
               <ListGroupItem variant="primary">
                 Constructed Units:
-                <Badge class="value-badge">{uc0}</Badge>
+                <Badge class="value-badge">{sum_2021[0]}</Badge>
               </ListGroupItem>
 
               <ListGroupItem variant="primary">
                 Deconstructed Units:
-                <Badge class="value-badge">{UC_Name[1]}</Badge>
+                <Badge class="value-badge">{Potential_Deconstruction_Sum[0]}</Badge>
               </ListGroupItem>
 
               <ListGroupItem variant="primary">
                 Construction / Unit Area:
-                <Badge class="value-badge">{UC_Name[2]}</Badge>
+                <Badge class="value-badge">{New_Construction_Sum_Per_Area[0]}</Badge>
               </ListGroupItem>
 
               <ListGroupItem variant="primary">
                 Deconstruction / Unit Area:
-                <Badge class="value-badge">{UC_Name[3]}</Badge>
+                <Badge class="value-badge">{Potential_Deconstruction_Sum_Per_Area[0]}</Badge>
               </ListGroupItem>
 
               <ListGroupItem variant="primary">
                 Total Tax Revenue:
-                <Badge class="value-badge">{227}</Badge>
+                <Badge class="value-badge">{"PKR 227"}</Badge>
               </ListGroupItem>
 
               <ListGroupItem variant="primary">
                 Tax Revenue / Unit Area:
-                <Badge class="value-badge">{221}</Badge>
+                <Badge class="value-badge">{"PKR 221"}</Badge>
               </ListGroupItem>
             </ListGroup>
           </Card.Body>

@@ -6,17 +6,18 @@ import reactmap from './ReactMaps.js';
 import StatBoxLoader from './statBox.js';
 import dataLoader from './dataLoader.js';
 
-// Styling imports
+// styling imports
 import logo from './logo.svg';
 import './App.css';
 
+// loading data from the local database
 let dataToUse = dataLoader();
 
 
 const App = () => {
   return <body>
             <div class="mapbox-div">
-              {/* { reactmap() } */}
+              { reactmap() }
             </div>
             <div class="statandfilterbox-div">
               { StatBoxLoader(dataToUse) }
