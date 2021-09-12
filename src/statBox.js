@@ -113,7 +113,7 @@ const StatBoxLoader = (listOfLists) => {
                             <ListGroupItem variant="primary">
                                 Constructed Units:
                                 <Badge class = "value-badge" >
-                                    { UCNAMEARRAY[0] }
+                                    { UC_Name[0] }
                                 </Badge>
                             </ListGroupItem>
 
