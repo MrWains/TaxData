@@ -1,7 +1,7 @@
 // react imports
 import React from "react";
 import { useState } from "react";
-
+import reactmap from './ReactMaps.js';
 // bootstrap imports
 import Dropdown from "react-bootstrap/Dropdown";
 import Card from "react-bootstrap/Card";
@@ -165,7 +165,7 @@ const StatBoxLoader = (listOfLists) => {
             <ListGroup>
               <ListGroupItem variant="primary">
                 Coordinates
-                <Badge class="value-badge">72.0018, 34.0019</Badge>
+                <Badge class="value-badge">hi</Badge>
               </ListGroupItem>
 
               <ListGroupItem variant="primary">
