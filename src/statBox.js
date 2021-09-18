@@ -30,12 +30,12 @@ const StatBoxLoader = (listOfLists) => {
   const [descriptionValues, setDescriptionValues] = useState(["Absolute Sums", "Sums Per Unit Area", "Sums Per Unit Shape Area"])
   // states that are used for screen rendering of values
   const [UC_Name, set_UC_Name] = useState("");
-  const [sum_2021, set_sum_2021] = useState();
-  const [Sum_Per_Area_2021, set_Sum_Per_Area_2021] = useState();
-  const [Sum_Per_Shape_Area_2021, set_Sum_Per_Shape_Area_2021] = useState();
-  const [sum_2012, set_sum_2012] = useState();
-  const [Sum_Per_Area_2012, set_Sum_Per_Area_2012] = useState();
-  const [Sum_Per_Shape_Area_2012, set_Sum_Per_Shape_Area_2012] = useState();
+  const [sum, set_sum] = useState();
+  const [Sum_Per_Area, set_Sum_Per_Area] = useState();
+  const [Sum_Per_Shape_Area, set_Sum_Per_Shape_Area] = useState();
+  // const [sum_2012, set_sum_2012] = useState();
+  // const [Sum_Per_Area_2012, set_Sum_Per_Area_2012] = useState();
+  // const [Sum_Per_Shape_Area_2012, set_Sum_Per_Shape_Area_2012] = useState();
   const [New_Construction_Sum, set_New_Construction_Sum] = useState();
   const [Potential_Deconstruction_Sum, set_Potential_Deconstruction_Sum] =useState();
   const [New_Construction_Sum_Per_Area, set_New_Construction_Sum_Per_Area] =useState();
@@ -54,13 +54,13 @@ const StatBoxLoader = (listOfLists) => {
   /////////////// Juggar code
 
   // function that takes state name as parameter from dropdown and updates all data in statbox
-  const updateStateInfo = (state) => {
+  const updateStateInfo = (state, year) => {
     
-    if (currentYear == 2021 && state == "" && currentUC == "")
+    if (year == 2021 && currentYear == 2021 && state == "" && currentUC == "")
     {
       // load data of all peshawar for year 2021
     } 
-    else if (currentYear != 2021 && state == "" && currentUC == "")
+    else if (year != 2021 && currentYear != 2021 && state == "" && currentUC == "")
     {
       // load all data of peshawar for the selected year
     }
@@ -71,20 +71,31 @@ const StatBoxLoader = (listOfLists) => {
 
       // update all values for rendering
       set_UC_Name(state);
-      set_sum_2021(sum_2021_List[targetIndex]);
-      set_Sum_Per_Area_2021(Sum_Per_Area_2021_List[targetIndex]);
-      set_Sum_Per_Shape_Area_2021(Sum_Per_Shape_Area_2021_List[targetIndex]);
-      set_sum_2012(sum_2012_List[targetIndex]);
-      set_Sum_Per_Area_2012(Sum_Per_Area_2012_List[targetIndex]);
-      set_Sum_Per_Shape_Area_2012(Sum_Per_Shape_Area_2012_List[targetIndex]);
+      
       set_New_Construction_Sum(New_Construction_Sum_List[targetIndex]);
       set_Potential_Deconstruction_Sum(Potential_Deconstruction_Sum_List[targetIndex]);
       set_New_Construction_Sum_Per_Area(New_Construction_Sum_Per_Area_List[targetIndex]);
       set_New_Construction_Sum_Per_Shape_Area(New_Construction_Sum_Per_Shape_Area_List[targetIndex]);
       set_Potential_Deconstruction_Sum_Per_Area(Potential_Deconstruction_Sum_Per_Area_List[targetIndex]);
       set_Potential_Deconstruction_Sum_Per_Shape_Area(Potential_Deconstruction_Sum_Per_Shape_Area_List[targetIndex]);
+
+      if (year == 2021)
+      {
+
+        set_sum(sum_2021_List[targetIndex]);
+        set_Sum_Per_Area(Sum_Per_Area_2021_List[targetIndex]);
+        set_Sum_Per_Shape_Area(Sum_Per_Shape_Area_2021_List[targetIndex]);
+      }
+
+      if (year != 2021)
+      {
+        set_sum(sum_2012_List[targetIndex]);
+        set_Sum_Per_Area(Sum_Per_Area_2012_List[targetIndex]);
+        set_Sum_Per_Shape_Area(Sum_Per_Shape_Area_2012_List[targetIndex]);
+      }
       // set currentUC state for further ease of filter calculations
-      setCurrentUC(state)
+      setCurrentUC(state);
+      setCurrentYear(year)
     }
   };
 
@@ -99,13 +110,15 @@ const StatBoxLoader = (listOfLists) => {
           <div class="filterbox-div">
             <Dropdown class="filter-dropdown">
               <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Select Union Council
+              {currentUC}
               </Dropdown.Toggle>
+              {/* <Dropdown.Header>{currentUC} </Dropdown.Header> */}
               <Dropdown.Menu>
                 {UC_Name_List.map((ucName) => (
-                  <Dropdown.Item onClick={(e) => {updateStateInfo(e.target.text)}}>{ucName}</Dropdown.Item>
+                  <Dropdown.Item onClick={(e) => {updateStateInfo(e.target.text,currentYear)}}>{ucName}</Dropdown.Item>
                 ))}
               </Dropdown.Menu>
+              
             </Dropdown>
 
             <Dropdown class="filter-dropdown">
@@ -114,7 +127,7 @@ const StatBoxLoader = (listOfLists) => {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 {yearValues.map((year) => (
-                  <Dropdown.Item onClick={(e) => {updateStateInfo(e.target.text)}}>{year}</Dropdown.Item>
+                  <Dropdown.Item onClick={(e) => {updateStateInfo(currentUC, e.target.text)}}>{year}</Dropdown.Item>
                 ))}
               </Dropdown.Menu>
             </Dropdown>
@@ -156,7 +169,7 @@ const StatBoxLoader = (listOfLists) => {
 
               <ListGroupItem variant="primary">
                 Total Constructed Units:
-                <Badge class="value-badge">{sum_2021}</Badge>
+                <Badge class="value-badge">{sum}</Badge>
               </ListGroupItem>
 
               <ListGroupItem variant="primary">
@@ -171,7 +184,7 @@ const StatBoxLoader = (listOfLists) => {
 
               <ListGroupItem variant="primary">
                 Total Construction / Unit Area:
-                <Badge class="value-badge">{Sum_Per_Area_2021}</Badge>
+                <Badge class="value-badge">{Sum_Per_Area}</Badge>
               </ListGroupItem>
 
               <ListGroupItem variant="primary">
@@ -181,7 +194,7 @@ const StatBoxLoader = (listOfLists) => {
 
               <ListGroupItem variant="primary">
                 Total Construction / Unit Shape Area:
-                <Badge class="value-badge">{Sum_Per_Shape_Area_2021}</Badge>
+                <Badge class="value-badge">{Sum_Per_Shape_Area}</Badge>
               </ListGroupItem>
 
               <ListGroupItem variant="primary">
