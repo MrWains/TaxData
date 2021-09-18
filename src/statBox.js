@@ -44,7 +44,7 @@ const StatBoxLoader = (listOfLists) => {
   const [Potential_Deconstruction_Sum_Per_Shape_Area, set_Potential_Deconstruction_Sum_Per_Shape_Area] = useState();
   // filter values that are hardcoded initially but may be updated
   const [currentYear, setCurrentYear] = useState(2021)
-  const [currentUC, setCurrentUC] = useState("")
+  const [currentUC, setCurrentUC] = useState(null)
 
   /////////////// Juggar code
   const [uc0, set_uc0] = useState("");
@@ -56,11 +56,11 @@ const StatBoxLoader = (listOfLists) => {
   // function that takes state name as parameter from dropdown and updates all data in statbox
   const updateStateInfo = (state, year) => {
     
-    if (year == 2021 && currentYear == 2021 && state == "" && currentUC == "")
+    if (year == 2021 && currentYear == 2021 && state == "" && currentUC == null)
     {
       // load data of all peshawar for year 2021
     } 
-    else if (year != 2021 && currentYear != 2021 && state == "" && currentUC == "")
+    else if (year != 2021 && currentYear != 2021 && state == "" && currentUC == null)
     {
       // load all data of peshawar for the selected year
     }
@@ -110,7 +110,7 @@ const StatBoxLoader = (listOfLists) => {
           <div class="filterbox-div">
             <Dropdown class="filter-dropdown">
               <Dropdown.Toggle variant="success" id="dropdown-basic">
-              {currentUC}
+              {currentUC?currentUC:"Select a country"}
               </Dropdown.Toggle>
               {/* <Dropdown.Header>{currentUC} </Dropdown.Header> */}
               <Dropdown.Menu>
@@ -123,7 +123,7 @@ const StatBoxLoader = (listOfLists) => {
 
             <Dropdown class="filter-dropdown">
               <Dropdown.Toggle variant="success" id="dropdown-basic">
-                Select Year
+              {currentYear?currentYear:"Select a year"}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 {yearValues.map((year) => (
