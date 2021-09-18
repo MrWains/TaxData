@@ -3,7 +3,7 @@ import React from 'react';
 
 // importing local DB and d3 to manipulate csv
 import * as d3 from 'd3';
-import localDB from './Final_Df.csv';
+import localDB from './local_DB_df.csv';
 
 
 const dataLoader = () => {
@@ -38,7 +38,7 @@ const dataLoader = () => {
         list_New_Construction_Sum_Per_Area.push(data.New_Construction_Sum_Per_Area)
         list_New_Construction_Sum_Per_Shape_Area.push(data.New_Construction_Sum_Per_Shape_Area)
         list_Potential_Deconstruction_Sum_Per_Area.push(data.Potential_Deconstruction_Sum_Per_Area)
-        list_Potential_Deconstruction_Sum_Per_Shape_Area.push(data.Potential_Deconstruction_Sum_Per_Shape_Area) 
+        list_Potential_Deconstruction_Sum_Per_Shape_Area.push(data.Potential_Deconstruction_Sum_Per_Shape_Area)
     });
 
     toReturn.push(list_UC_Name)

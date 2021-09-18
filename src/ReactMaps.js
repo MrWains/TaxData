@@ -33,6 +33,7 @@ const ReactMap = () => {
   const [lng, setLng] = useState(71.400);
   const [lat, setLat] = useState(34.00);
   const [zoom, setZoom] = useState(0);
+  const [coordinates, setCoordinate]= useState(null);
 
 
 
@@ -81,7 +82,7 @@ const ReactMap = () => {
         map.current.flyTo({
           center: e.lngLat
         });
-
+        setCoordinate(e.lngLat);
       
       });
 
@@ -173,7 +174,6 @@ const ReactMap = () => {
    
     });    
   });
-
 
   return (
     <div>

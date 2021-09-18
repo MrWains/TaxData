@@ -28,23 +28,20 @@ const StatBoxLoader = (listOfLists) => {
   // hardcoded values to be used
   const [yearValues, setYearValues] = useState([2021,2012])
   const [descriptionValues, setDescriptionValues] = useState(["Absolute Sums", "Sums Per Unit Area", "Sums Per Unit Shape Area"])
-  // states that are used for screen rendering of values
-  const [UC_Name, set_UC_Name] = useState("");
-  const [sum, set_sum] = useState();
-  const [Sum_Per_Area, set_Sum_Per_Area] = useState();
-  const [Sum_Per_Shape_Area, set_Sum_Per_Shape_Area] = useState();
-  // const [sum_2012, set_sum_2012] = useState();
-  // const [Sum_Per_Area_2012, set_Sum_Per_Area_2012] = useState();
-  // const [Sum_Per_Shape_Area_2012, set_Sum_Per_Shape_Area_2012] = useState();
-  const [New_Construction_Sum, set_New_Construction_Sum] = useState();
-  const [Potential_Deconstruction_Sum, set_Potential_Deconstruction_Sum] =useState();
-  const [New_Construction_Sum_Per_Area, set_New_Construction_Sum_Per_Area] =useState();
-  const [New_Construction_Sum_Per_Shape_Area, set_New_Construction_Sum_Per_Shape_Area] = useState();
-  const [Potential_Deconstruction_Sum_Per_Area, set_Potential_Deconstruction_Sum_Per_Area] = useState();
-  const [Potential_Deconstruction_Sum_Per_Shape_Area, set_Potential_Deconstruction_Sum_Per_Shape_Area] = useState();
   // filter values that are hardcoded initially but may be updated
   const [currentYear, setCurrentYear] = useState(2021)
-  const [currentUC, setCurrentUC] = useState(null)
+  const [currentUC, setCurrentUC] = useState("")
+  // states that are used for screen rendering of values
+   const [UC_Name, set_UC_Name] = useState("");
+   const [sum, set_sum] = useState(0);
+   const [Sum_Per_Area, set_Sum_Per_Area] = useState(0);
+   const [Sum_Per_Shape_Area, set_Sum_Per_Shape_Area] = useState(0);
+   const [New_Construction_Sum, set_New_Construction_Sum] = useState(0);
+   const [Potential_Deconstruction_Sum, set_Potential_Deconstruction_Sum] = useState(0);
+   const [New_Construction_Sum_Per_Area, set_New_Construction_Sum_Per_Area] = useState(0);
+   const [New_Construction_Sum_Per_Shape_Area, set_New_Construction_Sum_Per_Shape_Area] = useState(0);
+   const [Potential_Deconstruction_Sum_Per_Area, set_Potential_Deconstruction_Sum_Per_Area] = useState(0);
+   const [Potential_Deconstruction_Sum_Per_Shape_Area, set_Potential_Deconstruction_Sum_Per_Shape_Area] = useState(0);
 
   /////////////// Juggar code
   const [uc0, set_uc0] = useState("");
@@ -53,25 +50,40 @@ const StatBoxLoader = (listOfLists) => {
   }, 200);
   /////////////// Juggar code
 
+
   // function that takes state name as parameter from dropdown and updates all data in statbox
   const updateStateInfo = (state, year) => {
-    
-    if (year == 2021 && currentYear == 2021 && state == "" && currentUC == null)
-    {
-      // load data of all peshawar for year 2021
-    } 
-    else if (year != 2021 && currentYear != 2021 && state == "" && currentUC == null)
-    {
-      // load all data of peshawar for the selected year
-    }
-    else if (state != "")
+    // if (year == 2021 && currentYear == 2021 && state == "" && currentUC == "")
+    // {
+    //   // load data of all peshawar for year 2021
+    //   console.log("here")
+
+    // } 
+    // else if (year != 2021 && currentYear != 2021 && state == "" && currentUC == "")
+    // {
+    //   // here we have to show data of selected UC for selected Year
+    //   console.log("hereee")
+    //   // let targetIndex = UC_Name_List.indexOf(state)
+      
+    //   // load all data of peshawar for the selected year
+    //   // set_UC_Name(state);
+    //   // set_New_Construction_Sum(New_Construction_Sum_List[targetIndex]);
+    //   // set_Potential_Deconstruction_Sum(Potential_Deconstruction_Sum_List[targetIndex]);
+    //   // set_New_Construction_Sum_Per_Area(New_Construction_Sum_Per_Area_List[targetIndex]);
+    //   // set_New_Construction_Sum_Per_Shape_Area(New_Construction_Sum_Per_Shape_Area_List[targetIndex]);
+    //   // set_Potential_Deconstruction_Sum_Per_Area(Potential_Deconstruction_Sum_Per_Area_List[targetIndex]);
+    //   // set_Potential_Deconstruction_Sum_Per_Shape_Area(Potential_Deconstruction_Sum_Per_Shape_Area_List[targetIndex]);
+    //   // set_sum(sum_2021_List[targetIndex]);
+    //   // set_Sum_Per_Area(Sum_Per_Area_2021_List[targetIndex]);
+    //   // set_Sum_Per_Shape_Area(Sum_Per_Shape_Area_2021_List[targetIndex]);
+    // }
+    // else if (state != "")
     {
       // here we have to show data of selected UC for selected Year
       let targetIndex = UC_Name_List.indexOf(state)
 
       // update all values for rendering
       set_UC_Name(state);
-      
       set_New_Construction_Sum(New_Construction_Sum_List[targetIndex]);
       set_Potential_Deconstruction_Sum(Potential_Deconstruction_Sum_List[targetIndex]);
       set_New_Construction_Sum_Per_Area(New_Construction_Sum_Per_Area_List[targetIndex]);
@@ -81,12 +93,10 @@ const StatBoxLoader = (listOfLists) => {
 
       if (year == 2021)
       {
-
         set_sum(sum_2021_List[targetIndex]);
         set_Sum_Per_Area(Sum_Per_Area_2021_List[targetIndex]);
         set_Sum_Per_Shape_Area(Sum_Per_Shape_Area_2021_List[targetIndex]);
       }
-
       if (year != 2021)
       {
         set_sum(sum_2012_List[targetIndex]);
@@ -99,6 +109,7 @@ const StatBoxLoader = (listOfLists) => {
     }
   };
 
+
   return (
     <body>
       {/* filter section */}
@@ -109,10 +120,7 @@ const StatBoxLoader = (listOfLists) => {
           {/* all 3 filter drop downs */}
           <div class="filterbox-div">
             <Dropdown class="filter-dropdown">
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-              {currentUC?currentUC:"Select a country"}
-              </Dropdown.Toggle>
-              {/* <Dropdown.Header>{currentUC} </Dropdown.Header> */}
+              <Dropdown.Toggle variant="success" id="dropdown-basic">{currentUC?currentUC:"Select a Union Council"}</Dropdown.Toggle>
               <Dropdown.Menu>
                 {UC_Name_List.map((ucName) => (
                   <Dropdown.Item onClick={(e) => {updateStateInfo(e.target.text,currentYear)}}>{ucName}</Dropdown.Item>
@@ -122,9 +130,7 @@ const StatBoxLoader = (listOfLists) => {
             </Dropdown>
 
             <Dropdown class="filter-dropdown">
-              <Dropdown.Toggle variant="success" id="dropdown-basic">
-              {currentYear?currentYear:"Select a year"}
-              </Dropdown.Toggle>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">{currentYear?currentYear:"Select a year"}</Dropdown.Toggle>
               <Dropdown.Menu>
                 {yearValues.map((year) => (
                   <Dropdown.Item onClick={(e) => {updateStateInfo(currentUC, e.target.text)}}>{year}</Dropdown.Item>
