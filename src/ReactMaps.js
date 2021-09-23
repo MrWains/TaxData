@@ -32,7 +32,7 @@ const ReactMap = () => {
   const map = useRef(null);
   const [lng, setLng] = useState(71.400);
   const [lat, setLat] = useState(34.00);
-  const [zoom, setZoom] = useState(0);
+  const [zoom, setZoom] = useState(10);
   const [coordinates, setCoordinate]= useState(null);
 
 
@@ -73,6 +73,31 @@ const ReactMap = () => {
       });
 
 
+      map.current.addLayer({
+        id: 'uc-layer-highlight',
+        source: {
+          type: 'vector',
+          url: 'mapbox://mahasajid.199pwcco'
+        },
+        'source-layer': 'Union_Council-bi1iuv',
+        type: 'fill',
+        paint: {
+          'fill-color': '#000000',
+          'fill-outline-color': '#000000',
+          'fill-opacity': 0
+
+
+        },
+        layout: {
+          // Mapbox Style Specification layout properties
+        },
+
+        // filter: ['==', 'UC', e.features[0].properties.UC]
+
+        
+      });
+
+
       map.current.on('click', 'uc-layer', (e) => {
         console.log('event type:', e.type);
         new mapboxgl.Popup()
@@ -83,7 +108,21 @@ const ReactMap = () => {
           center: e.lngLat
         });
         setCoordinate(e.lngLat);
-      
+        setZoom(20);
+      //   const features = map.current.queryRenderedFeatures(e.point);
+      //   const UC_selected = features[0].properties.UC;
+
+      // const UC_selected = features.map((feature) => feature[0].properties.UC);
+      map.current.setPaintProperty('uc-layer-highlight', 'fill-opacity', 1);
+      map.current.setFilter('uc-layer-highlight', ['!=', 'UC', e.features[0].properties.UC]);
+
+
+
+
+    
+
+
+
       });
 
       map.current.addLayer({
@@ -102,7 +141,11 @@ const ReactMap = () => {
         layout: {
           // Mapbox Style Specification layout properties
         }
+
+
       });
+
+      
 
       map.current.addLayer({
         id: 'sector-a-layer',
