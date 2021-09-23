@@ -20,7 +20,7 @@ import dataLoader from './dataLoader.js';
 mapboxgl.accessToken = 'pk.eyJ1IjoibWFoYXNhamlkIiwiYSI6ImNrc292bjNqbjI5MHYydXBjd28yMnFkOXEifQ.5VqjxrsXPEpQJvXD7JKkmA';
 const bounds = [
   // Southwest coordinates
-  [70.479, 32.723],
+  [70.479, 33],
   [72.658, 35.180]
   // Northeast coordinates
 ];
@@ -48,6 +48,7 @@ function ReactMap ()
       style: 'mapbox://styles/mahasajid/ckst8pkjs2htk18pfy0bnj2kz/draft',
       center: [lng, lat],
       zoom: zoom,
+      minZoom: 9,
       maxBounds: bounds
 
     });
@@ -109,9 +110,9 @@ function ReactMap ()
           .addTo(map.current);
         map.current.flyTo({
           center: e.lngLat
+          
         });
         setCoordinate(e.lngLat.toString());
-        setZoom(20);
       //   const features = map.current.queryRenderedFeatures(e.point);
       //   const UC_selected = features[0].properties.UC;
 
@@ -223,13 +224,16 @@ function ReactMap ()
 
   return (
     
+    <div>
     <div class="mapbox-div">
         <div ref={mapContainer} className="map-container" />
+    </div>
         <div class="statandfilterbox-div">
-              {/* { StatBoxLoader(dataToUse) } */}
                 <StatBoxLoader data={dataToUse} coordinates={coordinates}/>
       </div> 
+
       </div>
+ 
       
   );
 
