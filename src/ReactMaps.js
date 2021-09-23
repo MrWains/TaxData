@@ -9,6 +9,8 @@ import mapboxgl from 'mapbox-gl';
 import { Marker } from 'react-map-gl';
 import * as ucdata from './Union_Council.json'
 //import ReactMapGL from 'react-map-gl';
+import StatBoxLoader from './statBox.js';
+import dataLoader from './dataLoader.js';
 
 
 
@@ -21,24 +23,23 @@ const bounds = [
   [70.479, 32.723],
   [72.658, 35.180]
   // Northeast coordinates
-
 ];
 
 
 
-const ReactMap = () => {
+function ReactMap ()
+{
 
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(71.400);
   const [lat, setLat] = useState(34.00);
-  const [zoom, setZoom] = useState(10);
-  const [coordinates, setCoordinate]= useState(null);
+  const [zoom, setZoom] = useState(0);
+  const [coordinates, setCoordinate]= useState("Plese Select");
+  let dataToUse = dataLoader();
 
-
-
-  <div id="map" >
-  </div>
+  // <div id="map" >
+  // </div>
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -99,7 +100,9 @@ const ReactMap = () => {
 
 
       map.current.on('click', 'uc-layer', (e) => {
-        console.log('event type:', e.type);
+        console.log('lnglat', e.lngLat.toString());
+        setCoordinate(e.lngLat.toString())
+        console.log("Map" + coordinates)
         new mapboxgl.Popup()
           .setLngLat(e.lngLat)
           .setHTML(e.features[0].properties.UC)
@@ -107,7 +110,7 @@ const ReactMap = () => {
         map.current.flyTo({
           center: e.lngLat
         });
-        setCoordinate(e.lngLat);
+        setCoordinate(e.lngLat.toString());
         setZoom(20);
       //   const features = map.current.queryRenderedFeatures(e.point);
       //   const UC_selected = features[0].properties.UC;
@@ -219,11 +222,15 @@ const ReactMap = () => {
   });
 
   return (
-    <div>
-      <div ref={mapContainer} className="map-container" />
-
-
-    </div>
+    
+    <div class="mapbox-div">
+        <div ref={mapContainer} className="map-container" />
+        <div class="statandfilterbox-div">
+              {/* { StatBoxLoader(dataToUse) } */}
+                <StatBoxLoader data={dataToUse} coordinates={coordinates}/>
+      </div> 
+      </div>
+      
   );
 
 };

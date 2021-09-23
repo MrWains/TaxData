@@ -1,11 +1,11 @@
 // react imports
 import React from 'react';
-
 // importing functions
-import reactmap from './ReactMaps.js';
+import ReactMap from './ReactMaps.js';
 // import {Coordinateshandler} from './ReactMaps.js';
 import StatBoxLoader from './statBox.js';
 import dataLoader from './dataLoader.js';
+import { useState } from "react";
 
 // styling imports
 import logo from './logo.svg';
@@ -17,13 +17,11 @@ let dataToUse = dataLoader();
 
 
 const App = () => {
+  const[coords,setcoords]=useState("Please Select");
   return <body>
-            <div class="mapbox-div">
-              { reactmap() }
-            </div>
-            <div class="statandfilterbox-div">
-              { StatBoxLoader(dataToUse) }
-            </div> 
+            
+              <ReactMap/>
+            
         </body>;
 };
 

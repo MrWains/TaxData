@@ -10,21 +10,26 @@ import ListGroupItem from "react-bootstrap/ListGroupItem";
 import Badge from "react-bootstrap/Badge";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const StatBoxLoader = (listOfLists) => {
+function StatBoxLoader (props) 
+{
+  // data parsing from from props
+  const receivedData = props.data
+  const receivedCoordinates = props.coordinates
+  console.log("Stats" + receivedCoordinates)
   // declaring react states
-  const [UC_Name_List, set_UC_Name_List] = useState(listOfLists[0]);
-  const [sum_2021_List, set_sum_2021_List] = useState(listOfLists[1]);
-  const [Sum_Per_Area_2021_List, set_Sum_Per_Area_2021_List] = useState(listOfLists[2]);
-  const [Sum_Per_Shape_Area_2021_List, set_Sum_Per_Shape_Area_2021_List] = useState(listOfLists[3]);
-  const [sum_2012_List, set_sum_2012_List] = useState(listOfLists[4]);
-  const [Sum_Per_Area_2012_List, set_Sum_Per_Area_2012_List] = useState(listOfLists[5]);
-  const [Sum_Per_Shape_Area_2012_List, set_Sum_Per_Shape_Area_2012_List] = useState(listOfLists[6]);
-  const [New_Construction_Sum_List, set_New_Construction_Sum_List] = useState(listOfLists[7]);
-  const [Potential_Deconstruction_Sum_List, set_Potential_Deconstruction_Sum_List] =useState(listOfLists[8]);
-  const [New_Construction_Sum_Per_Area_List, set_New_Construction_Sum_Per_Area_List] =useState(listOfLists[9]);
-  const [New_Construction_Sum_Per_Shape_Area_List, set_New_Construction_Sum_Per_Shape_Area_List] = useState(listOfLists[10]);
-  const [Potential_Deconstruction_Sum_Per_Area_List, set_Potential_Deconstruction_Sum_Per_Area_List] = useState(listOfLists[11]);
-  const [Potential_Deconstruction_Sum_Per_Shape_Area_List, set_Potential_Deconstruction_Sum_Per_Shape_Area_List] = useState(listOfLists[12]);
+  const [UC_Name_List, set_UC_Name_List] = useState(receivedData[0]);
+  const [sum_2021_List, set_sum_2021_List] = useState(receivedData[1]);
+  const [Sum_Per_Area_2021_List, set_Sum_Per_Area_2021_List] = useState(receivedData[2]);
+  const [Sum_Per_Shape_Area_2021_List, set_Sum_Per_Shape_Area_2021_List] = useState(receivedData[3]);
+  const [sum_2012_List, set_sum_2012_List] = useState(receivedData[4]);
+  const [Sum_Per_Area_2012_List, set_Sum_Per_Area_2012_List] = useState(receivedData[5]);
+  const [Sum_Per_Shape_Area_2012_List, set_Sum_Per_Shape_Area_2012_List] = useState(receivedData[6]);
+  const [New_Construction_Sum_List, set_New_Construction_Sum_List] = useState(receivedData[7]);
+  const [Potential_Deconstruction_Sum_List, set_Potential_Deconstruction_Sum_List] =useState(receivedData[8]);
+  const [New_Construction_Sum_Per_Area_List, set_New_Construction_Sum_Per_Area_List] =useState(receivedData[9]);
+  const [New_Construction_Sum_Per_Shape_Area_List, set_New_Construction_Sum_Per_Shape_Area_List] = useState(receivedData[10]);
+  const [Potential_Deconstruction_Sum_Per_Area_List, set_Potential_Deconstruction_Sum_Per_Area_List] = useState(receivedData[11]);
+  const [Potential_Deconstruction_Sum_Per_Shape_Area_List, set_Potential_Deconstruction_Sum_Per_Shape_Area_List] = useState(receivedData[12]);
   // hardcoded values to be used
   const [yearValues, setYearValues] = useState([2021,2012])
   const [descriptionValues, setDescriptionValues] = useState(["Absolute Sums", "Sums Per Unit Area", "Sums Per Unit Shape Area"])
@@ -124,7 +129,7 @@ const StatBoxLoader = (listOfLists) => {
               <Dropdown.Menu>
                 {UC_Name_List.map((ucName) => (
                   <Dropdown.Item onClick={(e) => {updateStateInfo(e.target.text,currentYear)}}>{ucName}</Dropdown.Item>
-                ))}
+                 ))}
               </Dropdown.Menu>
               
             </Dropdown>
@@ -143,12 +148,9 @@ const StatBoxLoader = (listOfLists) => {
                 Data Description
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                
-                {/* make function here */}
                 {descriptionValues.map((descp) => (
                   <Dropdown.Item href="#/action-2">{descp}</Dropdown.Item>
                 ))}
-
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -165,7 +167,7 @@ const StatBoxLoader = (listOfLists) => {
             <ListGroup>
               <ListGroupItem variant="primary">
                 Coordinates
-                <Badge class="value-badge">hi</Badge>
+                <Badge class="value-badge">{receivedCoordinates}</Badge>
               </ListGroupItem>
 
               <ListGroupItem variant="primary">
