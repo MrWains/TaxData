@@ -15,9 +15,9 @@ import './App.css';
 let dataToUse = dataLoader();
 // let coordinates = Coordinateshandler();
 
-
 const App = () => {
   const[coords,setcoords]=useState("Please Select");
+  
   return <body>
             
               <ReactMap/>

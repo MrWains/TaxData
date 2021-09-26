@@ -15,6 +15,10 @@ function StatBoxLoader (props)
   // data parsing from from props
   const receivedData = props.data
   const receivedCoordinates = props.coordinates
+  const receivedUC = props.unioncouncil
+  const lastupdate = props.lastupdate
+  const setLastUpdate = props.setLastUpdate
+
   console.log("Stats" + receivedCoordinates)
   // declaring react states
   const [UC_Name_List, set_UC_Name_List] = useState(receivedData[0]);
@@ -58,30 +62,7 @@ function StatBoxLoader (props)
 
   // function that takes state name as parameter from dropdown and updates all data in statbox
   const updateStateInfo = (state, year) => {
-    // if (year == 2021 && currentYear == 2021 && state == "" && currentUC == "")
-    // {
-    //   // load data of all peshawar for year 2021
-    //   console.log("here")
 
-    // } 
-    // else if (year != 2021 && currentYear != 2021 && state == "" && currentUC == "")
-    // {
-    //   // here we have to show data of selected UC for selected Year
-    //   console.log("hereee")
-    //   // let targetIndex = UC_Name_List.indexOf(state)
-      
-    //   // load all data of peshawar for the selected year
-    //   // set_UC_Name(state);
-    //   // set_New_Construction_Sum(New_Construction_Sum_List[targetIndex]);
-    //   // set_Potential_Deconstruction_Sum(Potential_Deconstruction_Sum_List[targetIndex]);
-    //   // set_New_Construction_Sum_Per_Area(New_Construction_Sum_Per_Area_List[targetIndex]);
-    //   // set_New_Construction_Sum_Per_Shape_Area(New_Construction_Sum_Per_Shape_Area_List[targetIndex]);
-    //   // set_Potential_Deconstruction_Sum_Per_Area(Potential_Deconstruction_Sum_Per_Area_List[targetIndex]);
-    //   // set_Potential_Deconstruction_Sum_Per_Shape_Area(Potential_Deconstruction_Sum_Per_Shape_Area_List[targetIndex]);
-    //   // set_sum(sum_2021_List[targetIndex]);
-    //   // set_Sum_Per_Area(Sum_Per_Area_2021_List[targetIndex]);
-    //   // set_Sum_Per_Shape_Area(Sum_Per_Shape_Area_2021_List[targetIndex]);
-    // }
     // else if (state != "")
     {
       // here we have to show data of selected UC for selected Year
@@ -112,6 +93,7 @@ function StatBoxLoader (props)
       setCurrentUC(state);
       setCurrentYear(year)
     }
+    setLastUpdate("stat");
   };
 
 
@@ -124,8 +106,26 @@ function StatBoxLoader (props)
 
           {/* all 3 filter drop downs */}
           <div class="filterbox-div">
+            
             <Dropdown class="filter-dropdown">
-              <Dropdown.Toggle variant="success" id="dropdown-basic">{currentUC?currentUC:"Select a Union Council"}</Dropdown.Toggle>
+              <Dropdown.Toggle variant="success" id="dropdown-basic">
+              { currentUC
+                  ?
+                  [
+                    (lastupdate ?  (
+                      UC_Name 
+                    ) : (
+                      receivedUC
+                    )
+                  )
+
+                  ]
+                 : "Select an Union Council"
+                }
+                              
+              
+              
+              </Dropdown.Toggle>
               <Dropdown.Menu>
                 {UC_Name_List.map((ucName) => (
                   <Dropdown.Item onClick={(e) => {updateStateInfo(e.target.text,currentYear)}}>{ucName}</Dropdown.Item>
@@ -172,7 +172,15 @@ function StatBoxLoader (props)
 
               <ListGroupItem variant="primary">
                 Union Coucil Name:
-                <Badge class="value-badge">{UC_Name}</Badge>
+                <Badge class="value-badge">{lastupdate ?  (
+                                            UC_Name
+                                          ) : (
+                                            receivedUC
+                                          )}
+
+
+                                          
+                </Badge>
               </ListGroupItem>
 
               <ListGroupItem variant="primary">

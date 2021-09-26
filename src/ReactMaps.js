@@ -36,6 +36,9 @@ function ReactMap ()
   const [lat, setLat] = useState(34.00);
   const [zoom, setZoom] = useState(0);
   const [coordinates, setCoordinate]= useState("Plese Select");
+  const [ucselected, setUCselected]= useState("Select UC");
+  const [lastupdate, setLastUpdate]=useState("stat")
+
   let dataToUse = dataLoader();
 
   // <div id="map" >
@@ -113,19 +116,11 @@ function ReactMap ()
           
         });
         setCoordinate(e.lngLat.toString());
-      //   const features = map.current.queryRenderedFeatures(e.point);
-      //   const UC_selected = features[0].properties.UC;
+        setUCselected(e.features[0].properties.UC)
+        setLastUpdate(null);
 
-      // const UC_selected = features.map((feature) => feature[0].properties.UC);
       map.current.setPaintProperty('uc-layer-highlight', 'fill-opacity', 1);
       map.current.setFilter('uc-layer-highlight', ['!=', 'UC', e.features[0].properties.UC]);
-
-
-
-
-    
-
-
 
       });
 
@@ -193,7 +188,7 @@ function ReactMap ()
 
     map.current.on('click', 'sector-b-layer', (e) => {
       console.log('event type:', e.type);
-      console.log(e.features[0].properties.name, "hi")
+      console.log(e.features[0].properties.name)
    
       
       new mapboxgl.Popup()
@@ -229,7 +224,7 @@ function ReactMap ()
         <div ref={mapContainer} className="map-container" />
     </div>
         <div class="statandfilterbox-div">
-                <StatBoxLoader data={dataToUse} coordinates={coordinates}/>
+                <StatBoxLoader data={dataToUse} coordinates={coordinates} unioncouncil={ucselected} lastupdate={lastupdate} setLastUpdate={setLastUpdate}/>
       </div> 
 
       </div>
