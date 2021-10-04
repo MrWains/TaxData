@@ -1,12 +1,13 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+require("dotenv").config()
 
 // optional packages
 // const joi = require("joi")
 // const bcrypt  = require("")
 // const jwt = require("")
-const port = 3000
+const port = process.env.PORT;
 
 // data models
 const district = require("./schema/districts");
@@ -19,7 +20,7 @@ app.use(cors());
 
 // connect to our database
 mongoose.connect(
-    "mongodb+srv://tpi_lab:cK6ejJzlRc3A74RS@clustertaxdata.e5kue.mongodb.net/TAXDATA?retryWrites=true&w=majority",
+    `mongodb+srv://${process.env.DB_HOST}:${process.env.DB_PASS}@clustertaxdata.e5kue.mongodb.net/TAXDATA?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true },
     (err) => {
         if (err) {
