@@ -48,7 +48,7 @@ app.get("/query", async (req, res) => {
         });
         if(queried == null)
             throw "Object not found";
-        console.
+        console.log("sending response");
         res.status(200).json({"data": queried});
     }
     catch(err){
@@ -81,7 +81,6 @@ app.post("/add", async (req, res) => {
         res.json({ error: err });
     }
 });
-
 
 
 // Start Server
