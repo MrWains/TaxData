@@ -39,7 +39,7 @@ app.get("/", (req, res) => {
     res.send("Yay!! this works")
 });
 
-app.get("/query", async (req, res) => {
+app.post("/query", async (req, res) => {
     console.log("Inside query call");
     try{
         const queried = await district.find({
@@ -79,6 +79,24 @@ app.post("/add", async (req, res) => {
     catch (err) {
         console.log(err)
         res.json({ error: err });
+    }
+});
+
+app.get("/names", async (req, res) => {
+    console.log("Inside Names call");
+    try{
+        const queried = await district.find({});
+        if(queried == null)
+            throw "Object not found";
+        var data = [];
+        queried.forEach((x) => {data.push(x.uc);});
+        console.log("sending response");
+        // console.log(data);
+        res.status(200).json({"names": data});
+    }
+    catch(err){
+        console.log(err);
+        res.status(500).json({"error": err});
     }
 });
 
