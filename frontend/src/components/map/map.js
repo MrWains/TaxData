@@ -1,12 +1,16 @@
 import mapboxgl from "mapbox-gl";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
+import GoogleMapReact from 'google-map-react';
 import Statbox from "../statbox/statbox";
 import MapContext from "../../context/mapcontext";
 import addUCLayer from "../map-layers/uc-layer";
 import addSecALayer from "../map-layers/sec-a-layer";
 import addSecBLayer from "../map-layers/sec-b-layer";
 import addSecCLayer from "../map-layers/sec-c-layer";
+//import { Marker } from 'react-map-gl';
+//import * as ucdata from './Union_Council.json'
+//import 'mapbox-gl/dist/mapbox-gl.css';
 import { funname } from "../../redux/actions";
 
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoibWFoYXNhamlkIiwiYSI6ImNrc292bjNqbjI5MHYydXBjd28yMnFkOXEifQ.5VqjxrsXPEpQJvXD7JKkmA';
@@ -59,9 +63,13 @@ const Map = () => {
             <div className="mapbox-div">
                 <div ref={mapContainer} className="map-container" />
             </div>
+            
+            <div class="statandfilterbox-div">
             <MapContext.Provider value={map}>
-                <Statbox />
+                <Statbox/>
             </MapContext.Provider>
+            </div>
+            
         </div>
     );
 

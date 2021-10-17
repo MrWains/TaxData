@@ -7,11 +7,13 @@ import axios from 'axios';
 import { setUCName } from '../../redux/actions';
 
 // bootstrap imports
+import "bootstrap/dist/css/bootstrap.min.css";
 import Card from "react-bootstrap/Card";
 import Badge from "react-bootstrap/Badge";
 import Dropdown from 'react-bootstrap/Dropdown';
 import ListGroup from 'react-bootstrap/ListGroup';
 import ListGroupItem from 'react-bootstrap/ListGroupItem';
+
 
 const Statbox = () => {
     const dispatch = useDispatch();
@@ -83,6 +85,7 @@ const Statbox = () => {
         return (
             <body>
                 {/* filter section */}
+
                 <Card>
                     <Card.Body>
                         <Card.Title>FILTERS</Card.Title>
@@ -90,7 +93,7 @@ const Statbox = () => {
                         {/* all 3 filter drop downs */}
                         <div class="filterbox-div">
 
-                            <Dropdown class="filter-dropdown">
+                            <Dropdown className="filter-dropdown">
                                 <Dropdown.Toggle variant="success" id="dropdown-basic" key={features.uc_name??""}>
                                     {features.uc_name ? features.uc_name : "Select a Union Council"}
                                 </Dropdown.Toggle>
@@ -124,7 +127,7 @@ const Statbox = () => {
                     </Card.Body>
                 </Card>
 
-                stats section
+                <h3>stats section</h3>
                 <div class="statbox-div">
                     <Card>
                         <Card.Body>
@@ -134,23 +137,23 @@ const Statbox = () => {
                             <ListGroup>
                                 <ListGroupItem variant="primary">
                                     Coordinates
-                                    <Badge class="value-badge">{uc_features?.geometry}</Badge>
+                                    <Badge class="value-badge" id="badge1">{uc_features?.geometry}</Badge>
                                 </ListGroupItem>
 
                                 <ListGroupItem variant="primary">
                                     Union Coucil Name:
-                                    <Badge class="value-badge">{features.uc_name ? features.uc_name : "None Selected"}
+                                    <Badge class="value-badge" id="badge2">{features.uc_name ? features.uc_name : "None Selected"}
                                     </Badge>
                                 </ListGroupItem>
 
                                 <ListGroupItem variant="primary">
                                     Total Constructed Units:
-                                    <Badge class="value-badge">{getConstructionUnits("sum")}</Badge> {/*sum*/}
+                                    <Badge class="value-badge" id="badge3">{getConstructionUnits("sum")}</Badge> {/*sum*/}
                                 </ListGroupItem>
 
                                 {/* <ListGroupItem variant="primary">
                                 Total Deconstructed Units:
-                                <Badge class="value-badge">{Potential_Deconstruction_Sum}</Badge>
+                                <Badge class="value-badge" id="badge4">{Potential_Deconstruction_Sum}</Badge>
                             </ListGroupItem> */}
 
                                 {/* <ListGroupItem variant="primary">
@@ -160,22 +163,22 @@ const Statbox = () => {
 
                                 <ListGroupItem variant="primary">
                                     Total Construction / Unit Area:
-                                    <Badge class="value-badge">{getConstructionUnits("sum_per_area")}</Badge> {/*Sum_Per_Area*/}
+                                    <Badge class="value-badge" id="badge5">{getConstructionUnits("sum_per_area")}</Badge> {/*Sum_Per_Area*/}
                                 </ListGroupItem>
 
                                 {/* <ListGroupItem variant="primary">
                                 Deconstruction / Unit Area:
-                                <Badge class="value-badge">{Potential_Deconstruction_Sum_Per_Area}</Badge>
+                                <Badge class="value-badge" id="badge6">{Potential_Deconstruction_Sum_Per_Area}</Badge>
                             </ListGroupItem> */}
 
                                 <ListGroupItem variant="primary">
                                     Total Construction / Unit Shape Area:
-                                    <Badge class="value-badge">{getConstructionUnits("sum_per_shape_area")}</Badge> {/*Sum_Per_Shape_Area*/}
+                                    <Badge class="value-badge" id="badge7">{getConstructionUnits("sum_per_shape_area")}</Badge> {/*Sum_Per_Shape_Area*/}
                                 </ListGroupItem>
 
                                 {/* <ListGroupItem variant="primary">
                                 Deconstruction / Unit Shape Area:
-                                <Badge class="value-badge">{Potential_Deconstruction_Sum_Per_Shape_Area}</Badge>
+                                <Badge class="value-badge" id="badge8">{Potential_Deconstruction_Sum_Per_Shape_Area}</Badge>
                             </ListGroupItem> */}
 
                                 {/* <ListGroupItem variant="primary">
@@ -190,17 +193,17 @@ const Statbox = () => {
 
                                 <ListGroupItem variant="primary">
                                     Total Tax Revenue:
-                                    <Badge class="value-badge">{"PKR 227"}</Badge>
+                                    <Badge class="value-badge" id="badge9">{"PKR 227"}</Badge>
                                 </ListGroupItem>
 
                                 <ListGroupItem variant="primary">
                                     Tax Revenue / Unit Area:
-                                    <Badge class="value-badge">{"PKR 221"}</Badge>
+                                    <Badge class="value-badge" id="badge10">{"PKR 221"}</Badge>
                                 </ListGroupItem>
                             </ListGroup>
                         </Card.Body>
                     </Card>
-                </div>
+                    </div>
             </body>
         );
     }
