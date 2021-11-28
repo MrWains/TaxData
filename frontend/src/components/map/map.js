@@ -19,11 +19,13 @@ const Map = () => {
     // objects that the map needs
     const dispatcher = useDispatch();
     dispatcher(funname());
-    const map = useRef(null);
-    const mapContainer = useRef(null);
+    const first_map = useRef(null);
+    const second_map = useRef(null);
+    const first_mapContainer = useRef(null);
+    const second_mapContainer = useRef(null);
 
     // helper functions
-    const initializeMap = async () => {
+    const initializeMap = async (map, mapContainer, mnum) => {
         console.log("Inside initialize map.")
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
@@ -35,10 +37,10 @@ const Map = () => {
             maxBounds: [[70.479, 33], [72.658, 35.180]]
         });
         map.current.on('load', () => {
-            map.current = addUCLayer(map.current, dispatcher);
-            map.current = addSecALayer(map.current, dispatcher);
-            map.current = addSecBLayer(map.current, dispatcher);
-            map.current = addSecCLayer(map.current, dispatcher);
+            map.current = addUCLayer(map.current, dispatcher, mnum);
+            map.current = addSecALayer(map.current, dispatcher, mnum);
+            map.current = addSecBLayer(map.current, dispatcher, mnum);
+            map.current = addSecCLayer(map.current, dispatcher, mnum);
         });
     }
 
@@ -46,9 +48,10 @@ const Map = () => {
     useEffect(() => {
         async function setup() {
             try {
-                if (map.current)
+                if (first_map.current && second_map.current)
                     return;
-                await initializeMap();
+                await initializeMap(first_map, first_mapContainer, 1);
+                await initializeMap(second_map, second_mapContainer, 2);
             }
             catch (err) {
                 console.log(err);
@@ -61,15 +64,25 @@ const Map = () => {
     return (
         <div>
             <div className="mapbox-div">
-                <div ref={mapContainer} className="map-container" />
+                <div ref={first_mapContainer} className="map-container" />
             </div>
-            
+
+            <div className="mapbox-div">
+                <div ref={second_mapContainer} className="map-container" />
+            </div>
+
             <div class="statandfilterbox-div">
-            <MapContext.Provider value={map}>
-                <Statbox/>
+            <MapContext.Provider value={first_map}>
+                <Statbox mnum={1}/>
             </MapContext.Provider>
             </div>
-            
+
+            <div class="statandfilterbox-div">
+            <MapContext.Provider value={second_map}>
+                <Statbox mnum={2}/>
+            </MapContext.Provider>
+            </div>
+
         </div>
     );
 

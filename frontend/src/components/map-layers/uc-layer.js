@@ -11,7 +11,7 @@ const SRC_LAYER = 'Union_Council-bi1iuv';
  * @param { Mapbox GL Map} map The Mapbox GL Map instance.
  * @param { useDipatch object} dispatch dispatcher for sending signals to redux store
  */
-const AddUCLayer = (map, dispatch) => {
+const AddUCLayer = (map, dispatch, num) => {
     console.log("inside AddUCLayer.");
     // actual layer
     map.addLayer({
@@ -53,17 +53,17 @@ const AddUCLayer = (map, dispatch) => {
         console.log('lnglat', e.lngLat.toString());
         // setCoordinate(e.lngLat.toString())
         // console.log("Map" + coordinates)
-        new mapboxgl.Popup()
-            .setLngLat(e.lngLat)
-            .setHTML(e.features[0].properties.UC)
-            .addTo(map);
+        // new mapboxgl.Popup()
+        //     .setLngLat(e.lngLat)
+        //     .setHTML(e.features[0].properties.UC)
+        //     .addTo(map);
 
         map.flyTo({
             center: e.lngLat
         });
 
-        dispatch(setCoordinates(e.lngLat.wrap()));
-        dispatch(setUCName(e.features[0].properties.UC));
+        dispatch(setCoordinates(e.lngLat.wrap(), num));
+        dispatch(setUCName(e.features[0].properties.UC, num));
 
         map.setPaintProperty('uc-layer-highlight', 'fill-opacity', 1);
         map.setFilter('uc-layer-highlight', ['!=', 'UC', e.features[0].properties.UC]);

@@ -15,7 +15,7 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import ListGroupItem from 'react-bootstrap/ListGroupItem';
 
 
-const Statbox = () => {
+const Statbox = (props) => {
     const dispatch = useDispatch();
     const map = useContext(MapContext);
     const features = useSelector(state => state.status);
@@ -43,11 +43,13 @@ const Statbox = () => {
             try {
                 const data = await axios.post("http://localhost:45000/query", {
                     city: "Peshawar",
-                    uc: features.uc_name
+                    uc: props.mnum==1? features.uc_name_A : features.uc_name_B
                 });
                 // console.log(data.data.data[0]);
                 setUCFeatures(data.data.data[0]);
                 console.log("UC_Features retrieved.");
+                // console.log("UC_Features After retreival: ");
+                // console.log(uc_features);
             }
             catch (err) {
                 console.log("error:\n" + err);
@@ -55,13 +57,12 @@ const Statbox = () => {
         };
         getUCFeatures();
         // console.log("UseEffec:\n" + uc_features);
-    }, [features.uc_name])
-
+    }, [features.uc_name_A, features.uc_name_B])
 
     const ucDropdownOnClick = (uc) => {
         // console.log("lmao i just got clicked");
         console.log("Inside OnClick: " + uc);
-         dispatch(setUCName(uc));
+        dispatch(setUCName(uc, props.mnum));
         console.log("Flying to new UC");
         const features = map.current.querySourceFeatures('uc-layer', { sourceLayer: 'Union_Council-bi1iuv' });
         const uc_obj = features?.filter((x) => x.properties.UC === uc)[0];
@@ -94,8 +95,8 @@ const Statbox = () => {
                         <div class="filterbox-div">
 
                             <Dropdown className="filter-dropdown">
-                                <Dropdown.Toggle variant="success" id="dropdown-basic" key={features.uc_name??""}>
-                                    {features.uc_name ? features.uc_name : "Select a Union Council"}
+                                <Dropdown.Toggle variant="success" id="dropdown-basic" key={features.uc_name ?? ""}>
+                                    {props.mnum==1?(features.uc_name_A ? features.uc_name_A : "Select a Union Council"):(features.uc_name_B ? features.uc_name_B : "Select a Union Council")}
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     {uc_names.map((ucName) => (
@@ -137,12 +138,12 @@ const Statbox = () => {
                             <ListGroup>
                                 <ListGroupItem variant="primary">
                                     Coordinates
-                                    <Badge class="value-badge" id="badge1">{uc_features?.geometry}</Badge>
+                                    <Badge class="value-badge" id="badge1">{uc_features?.geometry?.splice(0,2) ?? ""}</Badge>
                                 </ListGroupItem>
 
                                 <ListGroupItem variant="primary">
                                     Union Coucil Name:
-                                    <Badge class="value-badge" id="badge2">{features.uc_name ? features.uc_name : "None Selected"}
+                                    <Badge class="value-badge" id="badge2">{props.mnum==1?(features.uc_name_A ? features.uc_name_A : "None Selected"):(features.uc_name_B ? features.uc_name_B : "None Selected")}
                                     </Badge>
                                 </ListGroupItem>
 
@@ -203,7 +204,7 @@ const Statbox = () => {
                             </ListGroup>
                         </Card.Body>
                     </Card>
-                    </div>
+                </div>
             </body>
         );
     }
