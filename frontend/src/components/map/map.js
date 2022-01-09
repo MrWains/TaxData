@@ -1,5 +1,5 @@
 import mapboxgl from "mapbox-gl";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import GoogleMapReact from 'google-map-react';
 import Statbox from "../statbox/statbox";
@@ -15,7 +15,7 @@ import { funname } from "../../redux/actions";
 
 // bootstrap imports
 import "bootstrap/dist/css/bootstrap.min.css";
-import Button from "react-bootstrap/Button";
+import { Button, Card } from "react-bootstrap";
 
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoibWFoYXNhamlkIiwiYSI6ImNrc292bjNqbjI5MHYydXBjd28yMnFkOXEifQ.5VqjxrsXPEpQJvXD7JKkmA';
 
@@ -30,6 +30,10 @@ const Map = () => {
 
     // importing global states
     const features = useSelector(state => state.status);
+
+    // state variables
+    const [compareRenderState, setCompareRenderState] = useState(false);
+    const [compareStats, setCompareStats] = useState(null);
 
     // helper functions
     const initializeMap = async (map, mapContainer, mnum) => {
@@ -67,6 +71,60 @@ const Map = () => {
         setup();
     });
 
+    useEffect(() => {
+        const compareStateSetter = () => {
+            setCompareRenderState(false);
+        }
+        compareStateSetter();
+    }, [features.uc_name_A, features.uc_name_B, features.uc_year_A, features.uc_year_B]);
+
+    const comparisonLoader = () => {
+        setCompareRenderState(true);
+
+        // calculate difference and direction
+        let difference = null;
+        let direction = null;
+        let absDifference = null;
+        if (features.uc_year_A > features.uc_year_B)
+        {
+            difference = features.uc_sum_A - features.uc_sum_B;
+            absDifference = Math.abs(difference);
+            
+            if (difference < 0)
+            {
+                direction = `${absDifference} less units have been identified in ${features.uc_year_A} as compared to ${features.uc_year_B} hence deconstruction`;
+            }
+            else if (difference == 0)
+            {
+                direction = `${features.uc_year_A} and ${features.uc_year_B} have no idenfied differences in construction`;
+            }
+            else
+            {
+                direction = `${absDifference} more units have been identified in ${features.uc_year_A} as compared to ${features.uc_year_B} hence new construction`;
+            }
+        }
+        else if (features.uc_year_A < features.uc_year_B) 
+        {
+            difference = features.uc_sum_B - features.uc_sum_A;
+            absDifference = Math.abs(difference);
+            
+            if (difference < 0)
+            {
+                direction = `${absDifference} less units have been identified in ${features.uc_year_A} as compared to ${features.uc_year_B} hence deconstruction`;
+            }
+            else if (difference == 0)
+            {
+                direction = `${features.uc_year_A} and ${features.uc_year_B} have no idenfied differences in construction`;
+            }
+            else
+            {
+                direction = `${absDifference} more units have been identified in ${features.uc_year_A} as compared to ${features.uc_year_B} hence new construction`;
+            }
+        }
+
+        setCompareStats(direction);
+    }
+
 
     return (
 
@@ -85,28 +143,15 @@ const Map = () => {
                 </MapContext.Provider>
             </div>
 
-            {console.log("YO YO YO", features.uc_features)}
-
-            {features.uc_name_A === features.uc_name_B && features.uc_name_A != null && features.uc_name_B != null ? (   
-                <Button className="compare-button" variant="secondary">
-                Compare
+            {features.uc_name_A === features.uc_name_B && features.uc_year_A !== features.uc_year_B ? (   
+                <Button className="compare-button" variant="primary" onClick={()=>comparisonLoader()}>
+                    Compare
                 </Button>
             ) : (
                 <Button disabled className="compare-button" variant="secondary">
-                Compare
+                    Compare
                 </Button>)
             }
-            
-            
-            
-
-
-            {/* { console.log("In RETURN ", features.uc_name_A, features.uc_name_B) } */}
-
-
-
-            
-            
 
             <div class="statandfilterbox-div">
                 <MapContext.Provider value={second_map}>
@@ -114,9 +159,19 @@ const Map = () => {
                 </MapContext.Provider>
             </div>
 
+            {compareRenderState == true ? (
+                <Card>
+                    <Card.Body>
+                        <Card.Title>{"COMPARISON"}</Card.Title>
+                        {`${compareStats}`}
+                    </Card.Body>
+                </Card>
+            ) : (
+                <div></div>
+            )}
+
         </div>
     );
-
 }
 
 export default Map;
