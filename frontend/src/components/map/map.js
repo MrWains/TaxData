@@ -1,6 +1,6 @@
 import mapboxgl from "mapbox-gl";
 import { useEffect, useRef } from "react";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import GoogleMapReact from 'google-map-react';
 import Statbox from "../statbox/statbox";
 import MapContext from "../../context/mapcontext";
@@ -13,6 +13,10 @@ import addSecCLayer from "../map-layers/sec-c-layer";
 //import 'mapbox-gl/dist/mapbox-gl.css';
 import { funname } from "../../redux/actions";
 
+// bootstrap imports
+import "bootstrap/dist/css/bootstrap.min.css";
+import Button from "react-bootstrap/Button";
+
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoibWFoYXNhamlkIiwiYSI6ImNrc292bjNqbjI5MHYydXBjd28yMnFkOXEifQ.5VqjxrsXPEpQJvXD7JKkmA';
 
 const Map = () => {
@@ -23,6 +27,9 @@ const Map = () => {
     const second_map = useRef(null);
     const first_mapContainer = useRef(null);
     const second_mapContainer = useRef(null);
+
+    // importing global states
+    const features = useSelector(state => state.status);
 
     // helper functions
     const initializeMap = async (map, mapContainer, mnum) => {
@@ -62,6 +69,7 @@ const Map = () => {
 
 
     return (
+
         <div>
             <div className="mapbox-div">
                 <div ref={first_mapContainer} className="map-container" />
@@ -72,15 +80,38 @@ const Map = () => {
             </div>
 
             <div class="statandfilterbox-div">
-            <MapContext.Provider value={first_map}>
-                <Statbox mnum={1}/>
-            </MapContext.Provider>
+                <MapContext.Provider value={first_map}>
+                    <Statbox mnum={1}/>
+                </MapContext.Provider>
             </div>
 
+            {console.log("YO YO YO", features.uc_features)}
+
+            {features.uc_name_A === features.uc_name_B && features.uc_name_A != null && features.uc_name_B != null ? (   
+                <Button className="compare-button" variant="secondary">
+                Compare
+                </Button>
+            ) : (
+                <Button disabled className="compare-button" variant="secondary">
+                Compare
+                </Button>)
+            }
+            
+            
+            
+
+
+            {/* { console.log("In RETURN ", features.uc_name_A, features.uc_name_B) } */}
+
+
+
+            
+            
+
             <div class="statandfilterbox-div">
-            <MapContext.Provider value={second_map}>
-                <Statbox mnum={2}/>
-            </MapContext.Provider>
+                <MapContext.Provider value={second_map}>
+                    <Statbox mnum={2}/>
+                </MapContext.Provider>
             </div>
 
         </div>

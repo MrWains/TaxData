@@ -41,3 +41,41 @@ export const setUCName = (name, map) => {
     else
         return null;
 }
+
+export const setUCYear = (year, map) => {
+    if(map === 1)
+    {
+        return {
+            type: "uc_year_set_A",
+            payload: year
+        }
+    }
+    else if(map === 2)
+    {
+        return {
+            type: "uc_year_set_B",
+            payload: year
+        };
+    }
+    else
+        return null;
+}
+
+export const setUCSum = (sum, map) => {
+    if(map === 1)
+    {
+        return {
+            type: "uc_sum_set_A",
+            payload: sum
+        }
+    }
+    else if(map === 2)
+    {
+        return {
+            type: "uc_sum_set_B",
+            payload: sum
+        };
+    }
+    else
+        return null;
+}
