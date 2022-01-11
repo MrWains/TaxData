@@ -11,6 +11,8 @@ const SRC_LAYER = "Union_Council-bi1iuv";
  * @param { Mapbox GL Map} map The Mapbox GL Map instance.
  * @param { useDipatch object} dispatch dispatcher for sending signals to redux store
  */
+
+ let hoveredStateId = null;
 const AddUCLayer = (map, dispatch) => {
   console.log("inside AddUCLayer.");
   // actual layer
@@ -38,15 +40,22 @@ const AddUCLayer = (map, dispatch) => {
       url: UC_LAYER_SRC,
     },
     "source-layer": SRC_LAYER,
-    type: "fill",
-    paint: {
-      "fill-color": "#000000",
-      "fill-outline-color": "#000000",
-      "fill-opacity": 0,
+    type: "line",
+    // paint: {
+    //   "fill-color": "#FFFFFF",
+    //   "fill-outline-color": "#FFFFFF",
+    //   "fill-opacity": 0,
+    // },
+    
+  paint: {
+    'line-color': '#000000',
+    'line-width': 4,
+    'line-opacity': 0
     },
     layout: {},
     // filter: ['==', 'UC', e.features[0].properties.UC]
   });
+
 
   // layer interactivity
   map.on("click", "uc-layer", (e) => {
@@ -61,6 +70,25 @@ const AddUCLayer = (map, dispatch) => {
     map.flyTo({
       center: e.lngLat,
     });
+
+
+    // if (e.features.length > 0) {
+    //   if (hoveredStateId !== null) {
+    //   map.setFeatureState(
+    //   { source: "uc-layer-highlight", id: hoveredStateId },
+    //   { hover: false }
+    //   );
+    //   }
+    //   hoveredStateId = e.features[0].id;
+    //   map.setFeatureState(
+    //   { source:"uc-layer-highlight", id: hoveredStateId },
+    //   { hover: true }
+    //   );
+    //   }
+    
+
+ 
+
     console.log("Wrapped", e.lngLat);
     dispatch(
       setCoordinates([
@@ -70,12 +98,12 @@ const AddUCLayer = (map, dispatch) => {
 
     dispatch(setUCName(e.features[0].properties.UC));
 
-    // map.setPaintProperty("uc-layer-highlight", "fill-opacity", 1);
-    // map.setFilter("uc-layer-highlight", [
-    //   "!=",
-    //   "UC",
-    //   e.features[0].properties.UC,
-    // ]);
+    map.setPaintProperty("uc-layer-highlight", "line-opacity", 1);
+    map.setFilter("uc-layer-highlight", [
+      "==",
+      "UC",
+      e.features[0].properties.UC,
+    ]);
   });
   console.log("Added UC-Layer to map.");
   return map;
