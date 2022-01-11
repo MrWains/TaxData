@@ -13,6 +13,9 @@ import Badge from "react-bootstrap/Badge";
 import Dropdown from 'react-bootstrap/Dropdown';
 import ListGroup from 'react-bootstrap/ListGroup';
 import ListGroupItem from 'react-bootstrap/ListGroupItem';
+// other imports
+import SearchField from "react-search-field";
+
 
 
 const Statbox = () => {
@@ -79,8 +82,6 @@ const Statbox = () => {
 
     const getConstructionUnits = (key) => uc_features?.years?.filter((x) => x.year === year)[0]?.[key]?.toFixed(2) ?? 0;
 
-    console.log(uc_features);//.years.filter((x)=>{return x.year===year}));
-
     const getUI = () => {
         return (
             <body>
@@ -112,6 +113,14 @@ const Statbox = () => {
                                     ))}
                                 </Dropdown.Menu>
                             </Dropdown>
+
+                            <SearchField
+                                placeholder="search..."
+                                // onChange={onChange}
+                                searchText="Enter Coordinates"
+                                classNames="search-bar"
+                            />
+
 
                             {/* <Dropdown class="filter-dropdown">
                             <Dropdown.Toggle variant="success" id="dropdown-basic">
