@@ -154,7 +154,7 @@ const Statbox = (props) => {
                             <ListGroup>
                                 <ListGroupItem variant="primary">
                                     Coordinates
-                                    <Badge class="value-badge" id="badge1">{uc_features?.geometry?.splice(0,2) ?? ""}</Badge>
+                                    <Badge class="value-badge" id="badge1">{ (uc_features?.geometry?.splice(0,2)[0] ?? "") + " , " + (uc_features?.geometry?.splice(0,2)[1] ?? "")  }</Badge>
                                 </ListGroupItem>
 
                                 <ListGroupItem variant="primary">
