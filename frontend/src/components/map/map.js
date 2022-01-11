@@ -110,7 +110,7 @@ const Map = () => {
             
             if (difference < 0)
             {
-                direction = `${absDifference} less units have been identified in ${features.uc_year_A} as compared to ${features.uc_year_B} hence deconstruction`;
+                direction = `${absDifference} less units have been identified in ${features.uc_year_B} as compared to ${features.uc_year_A} hence deconstruction`;
             }
             else if (difference == 0)
             {
@@ -118,7 +118,7 @@ const Map = () => {
             }
             else
             {
-                direction = `${absDifference} more units have been identified in ${features.uc_year_A} as compared to ${features.uc_year_B} hence new construction`;
+                direction = `${absDifference} more units have been identified in ${features.uc_year_B} as compared to ${features.uc_year_A} hence new construction`;
             }
         }
 
