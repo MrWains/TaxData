@@ -117,6 +117,8 @@ const Statbox = () => {
                             <SearchField
                                 placeholder="search..."
                                 // onChange={onChange}
+                                // onSearchClick={(e)=>{console.log(e)}}
+                                // onEnter={(e)=>{alert(e)}}
                                 searchText="Enter Coordinates"
                                 classNames="search-bar"
                             />
