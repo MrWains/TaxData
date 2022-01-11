@@ -14,32 +14,43 @@ import Dropdown from "react-bootstrap/Dropdown";
 import ListGroup from "react-bootstrap/ListGroup";
 import ListGroupItem from "react-bootstrap/ListGroupItem";
 import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 // other imports
-// import SearchField from "react-search-field";
+import pointInPolygon from "point-in-polygon";
+
 
 const Statbox = () => {
   const dispatch = useDispatch();
   const map = useContext(MapContext);
   const features = useSelector((state) => state.status);
   const [uc_names, setUCNames] = useState([]);
+  const [uc_geom, setUCGeom] = useState([]);
   const [uc_features, setUCFeatures] = useState({});
   const [year, setYear] = useState("2012");
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [cods, setCods] = useState("");
+  const [fileButtonState, setFileButtonState] = useState(false);
+  // dummy activations for phase 3
+  // should retrive uc_activations for target uc and year from backend. These should be in the form: [[long,lat]]
+  const [activations, setActivations] = useState([ [34.10874428042537, 71.39019036083062], [2,2], [34.17297905300006, 71.42344173000004] ]);
+
   useEffect(() => {
     async function getAllNames() {
       try {
-        const data = await axios.get("http://localhost:45000/names");
-        // console.log(data.data.names);
+        const data = await axios.get("http://localhost:45000/namesandgeom");
+
         setUCNames(data.data.names);
-        console.log("UC_Names retrieved.");
+        setUCGeom(data.data.geom);
+
+        console.log("UC_Names and geoms retrieved.");
       } catch (err) {
         console.log(err);
       }
     }
     getAllNames();
   }, []);
+
   useEffect(() => {
     async function coordinateDecider() {
       try {
@@ -59,7 +70,7 @@ const Statbox = () => {
           city: "Peshawar",
           uc: features.uc_name,
         });
-        // console.log(data.data.data[0]);
+
         setUCFeatures(data.data.data[0]);
         setCods([
           (data.data.data[0]?.geometry?.splice(0, 2)[0] ?? "") +
@@ -84,7 +95,8 @@ const Statbox = () => {
       sourceLayer: "Union_Council-bi1iuv",
     });
     const uc_obj = features?.filter((x) => x.properties.UC === uc)[0];
-    console.log(uc_obj?.geometry?.coordinates[0][0]);
+    // console.log("features: ", features);
+    // console.log("uc_obj: ", uc_obj);
 
     map.current.flyTo({
       center: uc_obj?.geometry?.coordinates[0][0],
@@ -116,8 +128,74 @@ const Statbox = () => {
         zoom: 19,
       });
       setCods([long.toString() + " , " + lat.toString()]);
+
+      // set uc name according to entered coordinates
+      let point = [long, lat];
+      let targetIndex = null;
+      for (let i = 0; i < uc_geom.length; i++)
+      {
+        if (pointInPolygon(point, uc_geom[i]))
+        {
+          targetIndex = i;
+          break;
+        }
+      }
+      dispatch(setUCName(uc_names[targetIndex]));
+
+      
+      // // check if point is an activation or not, if yes thne render pdf button
+      // let Point = [lat, long];
+      // for (let i = 0; i < activations.length; i++)
+      // {
+      //   if (activations[i][0] == Point[0] && activations[i][1] == Point[1])
+      //   {
+      //     console.log("setting state")
+      //     setFileButtonState(true);
+      //     break;
+      //   }
+      //   else
+      //   {
+      //     setFileButtonState(false);
+      //   }
+      // }
     }
   };
+
+  useEffect(() => {
+    const onClickFileStatusChecker = () => {
+      // check if point is an activation or not, if yes thne render pdf button
+      // should retrive uc_activations for target uc and year from backend. These should be in the form: [[long,lat]]4
+
+      if (cods != null)
+      {
+        for (let i = 0; i < activations.length; i++)
+        {
+          let toCompare = activations[i][1].toString() + " , " + activations[i][0].toString();
+
+          if (toCompare == cods[0])
+          {
+            console.log("comparison true")
+            setFileButtonState(true);
+            break;
+          }
+          else
+          {
+            setFileButtonState(false);
+          }
+        }
+      }
+    };
+    
+    onClickFileStatusChecker();
+  }, [cods]);
+
+
+  const fileOpener = () => {
+    setFileButtonState(false);
+    
+    // open pdf file here
+    alert("Opening File!");
+  }
 
   const getUI = () => {
     return (
@@ -169,6 +247,7 @@ const Statbox = () => {
                   ))}
                 </Dropdown.Menu>
               </Dropdown>
+              
               <Form>
                 <Form.Group>
                   <Form.Label>Enter Latitude :</Form.Label>
@@ -193,25 +272,6 @@ const Statbox = () => {
               </Form>
               <button onClick={() => fly()}>✈️ Fly to </button>
 
-              {/* <SearchField
-                placeholder="search..."
-                // onChange={onChange}
-                // onSearchClick={(e)=>{console.log(e)}}
-                // onEnter={(e)=>{alert(e)}}
-                searchText="Enter Coordinates"
-                classNames="search-bar"
-              /> */}
-
-              {/* <Dropdown class="filter-dropdown">
-                            <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                Data Description
-                            </Dropdown.Toggle>
-                            <Dropdown.Menu>
-                                {descriptionValues.map((descp) => (
-                                    <Dropdown.Item href="#/action-2">{descp}</Dropdown.Item>
-                                ))}
-                            </Dropdown.Menu>
-                        </Dropdown> */}
             </div>
           </Card.Body>
         </Card>
@@ -238,73 +298,13 @@ const Statbox = () => {
                   </Badge>
                 </ListGroupItem>
 
-                <ListGroupItem variant="primary">
-                  Total Constructed Units:
-                  <Badge class="value-badge" id="badge3">
-                    {getConstructionUnits("sum")}
-                  </Badge>{" "}
-                  {/*sum*/}
-                </ListGroupItem>
+                { fileButtonState ? (
+                  <Button onClick={()=>fileOpener()}> Open Plot File </Button>// <Button onClick={window.location.href = 'www.youtube.com', ()=>fileOpener()}> Open Plot File </Button>
+                  ) : (
+                    <div></div>
+                  )
+                }
 
-                {/* <ListGroupItem variant="primary">
-                                Total Deconstructed Units:
-                                <Badge class="value-badge" id="badge4">{Potential_Deconstruction_Sum}</Badge>
-                            </ListGroupItem> */}
-
-                {/* <ListGroupItem variant="primary">
-                                Total New Constructed Units:
-                                <Badge class="value-badge">{New_Construction_Sum}</Badge>
-                            </ListGroupItem> */}
-
-                <ListGroupItem variant="primary">
-                  Total Construction / Unit Area:
-                  <Badge class="value-badge" id="badge5">
-                    {getConstructionUnits("sum_per_area")}
-                  </Badge>{" "}
-                  {/*Sum_Per_Area*/}
-                </ListGroupItem>
-
-                {/* <ListGroupItem variant="primary">
-                                Deconstruction / Unit Area:
-                                <Badge class="value-badge" id="badge6">{Potential_Deconstruction_Sum_Per_Area}</Badge>
-                            </ListGroupItem> */}
-
-                <ListGroupItem variant="primary">
-                  Total Construction / Unit Shape Area:
-                  <Badge class="value-badge" id="badge7">
-                    {getConstructionUnits("sum_per_shape_area")}
-                  </Badge>{" "}
-                  {/*Sum_Per_Shape_Area*/}
-                </ListGroupItem>
-
-                {/* <ListGroupItem variant="primary">
-                                Deconstruction / Unit Shape Area:
-                                <Badge class="value-badge" id="badge8">{Potential_Deconstruction_Sum_Per_Shape_Area}</Badge>
-                            </ListGroupItem> */}
-
-                {/* <ListGroupItem variant="primary">
-                                New Construction / Unit Area:
-                                <Badge class="value-badge">{New_Construction_Sum_Per_Area}</Badge>
-                            </ListGroupItem> */}
-
-                {/* <ListGroupItem variant="primary">
-                                New Construction / Unit Shape Area:
-                                <Badge class="value-badge">{New_Construction_Sum_Per_Shape_Area}</Badge>
-                            </ListGroupItem> */}
-
-                <ListGroupItem variant="primary">
-                  Total Tax Revenue:
-                  <Badge class="value-badge" id="badge9">
-                    {"PKR 227"}
-                  </Badge>
-                </ListGroupItem>
-
-                <ListGroupItem variant="primary">
-                  Tax Revenue / Unit Area:
-                  <Badge class="value-badge" id="badge10">
-                    {"PKR 221"}
-                  </Badge>
-                </ListGroupItem>
               </ListGroup>
             </Card.Body>
           </Card>

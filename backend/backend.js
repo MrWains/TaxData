@@ -82,17 +82,19 @@ app.post("/add", async (req, res) => {
     }
 });
 
-app.get("/names", async (req, res) => {
+app.get("/namesandgeom", async (req, res) => {
     console.log("Inside Names call");
     try{
         const queried = await district.find({});
         if(queried == null)
             throw "Object not found";
         var data = [];
+        var geos = []
         queried.forEach((x) => {data.push(x.uc);});
+        queried.forEach((x) => {geos.push(x.geometry);});
         console.log("sending response");
         // console.log(data);
-        res.status(200).json({"names": data});
+        res.status(200).json({"names": data, "geom": geos});
     }
     catch(err){
         console.log(err);
