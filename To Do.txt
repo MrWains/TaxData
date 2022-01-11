@@ -1,25 +1,2 @@
-Comparison Screen:
+FLOW 3:
 
-A, B
-
-uc_name_A, uc_name_B
-yearA, yearB
-
-IF
-uc_name_A === uc_name_B
-&&
-yearA != yearB
-THEN
-// fetch all the uc_features.years for that UC
-// filter out the 2 target years and their info
-
-IF 
-yearA > yearB
-THEN
-// difference = sumA - sumB
-// direction = IF difference < 0 THEN "deconstruction" ELSEIF difference == 0 THEN "no temporal difference" ELSE "new construction"
-// display direction and abs(difference)
-ELSE
-// difference = sumB - sumA
-// direction = IF difference < 0 THEN "deconstruction" ELSEIF difference == 0 THEN "no temporal difference" ELSE "new construction"
-// display direction and abs(difference)
