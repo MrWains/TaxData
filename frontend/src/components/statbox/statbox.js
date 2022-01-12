@@ -4,7 +4,7 @@ import MapContext from '../../context/mapcontext';
 import axios from 'axios';
 
 // actions import
-import { setUCName } from '../../redux/actions';
+import { setCoordinates, setUCName } from '../../redux/actions';
 
 // bootstrap imports
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -65,7 +65,9 @@ const Statbox = () => {
         console.log("Flying to new UC");
         const features = map.current.querySourceFeatures('uc-layer', { sourceLayer: 'Union_Council-bi1iuv' });
         const uc_obj = features?.filter((x) => x.properties.UC === uc)[0];
-        console.log(uc_obj.geometry.coordinates[0][0]);
+        
+        console.log("what is this: ", uc_obj.geometry.coordinates[0][0]);
+        dispatch(setCoordinates([uc_obj.geometry.coordinates[0][0][0].toString() + " , " + uc_obj.geometry.coordinates[0][0][1].toString(),]))
 
         map.current.flyTo({
             center: uc_obj.geometry.coordinates[0][0]
@@ -137,7 +139,12 @@ const Statbox = () => {
                             <ListGroup>
                                 <ListGroupItem variant="primary">
                                     Coordinates
-                                    <Badge class="value-badge" id="badge1">{uc_features?.geometry}</Badge>
+                                    
+                                    { console.log("seeing what we get here: ", features?.coords) }
+                                    <Badge class="value-badge" id="badge1">{features?.coords}</Badge>
+
+
+                                    {/* <Badge class="value-badge" id="badge1">{uc_features?.geometry}</Badge> */}
                                 </ListGroupItem>
 
                                 <ListGroupItem variant="primary">

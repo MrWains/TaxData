@@ -1,7 +1,7 @@
 import mapboxgl from "mapbox-gl";
 import { useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
-import GoogleMapReact from 'google-map-react';
+// import GoogleMapReact from 'google-map-react';
 import Statbox from "../statbox/statbox";
 import MapContext from "../../context/mapcontext";
 import addUCLayer from "../map-layers/uc-layer";

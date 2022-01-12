@@ -62,7 +62,11 @@ const AddUCLayer = (map, dispatch) => {
             center: e.lngLat
         });
 
-        dispatch(setCoordinates(e.lngLat.wrap()));
+        // dispatch(setCoordinates(e.lngLat.wrap()));
+        var temp = [e.lngLat.wrap().lng.toString() + " , " + e.lngLat.wrap().lat.toString()];
+        console.log("temp: ", temp);
+        dispatch(setCoordinates([e.lngLat.wrap().lng.toString() + " , " + e.lngLat.wrap().lat.toString()]));
+        
         dispatch(setUCName(e.features[0].properties.UC));
 
         map.setPaintProperty('uc-layer-highlight', 'fill-opacity', 1);
