@@ -8,6 +8,7 @@ import addUCLayer from "../map-layers/uc-layer";
 import addSecALayer from "../map-layers/sec-a-layer";
 import addSecBLayer from "../map-layers/sec-b-layer";
 import addSecCLayer from "../map-layers/sec-c-layer";
+
 //import { Marker } from 'react-map-gl';
 //import * as ucdata from './Union_Council.json'
 //import 'mapbox-gl/dist/mapbox-gl.css';
@@ -15,7 +16,10 @@ import { funname } from "../../redux/actions";
 
 // bootstrap imports
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Button, Card } from "react-bootstrap";
+import { Button, Card, Badge } from "react-bootstrap";
+import Dropdown from 'react-bootstrap/Dropdown';
+import ListGroup from 'react-bootstrap/ListGroup';
+import ListGroupItem from 'react-bootstrap/ListGroupItem';
 
 const MAPBOX_ACCESS_TOKEN = 'pk.eyJ1IjoibWFoYXNhamlkIiwiYSI6ImNrc292bjNqbjI5MHYydXBjd28yMnFkOXEifQ.5VqjxrsXPEpQJvXD7JKkmA';
 
@@ -198,6 +202,37 @@ const Map = () => {
                     <Card.Body>
                         <Card.Title>{"COMPARISON"}</Card.Title>
                         {`${compareStats}`}
+
+                        <ListGroup>
+                        
+                        {newConstruction.map((nc) => (
+                    
+                            <ListGroup.Item key={nc}> 
+                                {`(${nc[0].toString()}  ,   ${nc[1].toString()} ) `}
+
+                                <Button variant = "secondary" size = "sm">
+                                    View File
+                                </Button>
+
+                                <Button variant = "secondary" size = "sm">
+                                    Accept Proof
+                                </Button>
+                                <Button variant = "secondary" size = "sm">
+                                    Reject Proof
+                                </Button>
+
+                                <Button variant = "secondary" size = "sm">
+                                    Measure Height 
+                                </Button>
+                            </ListGroup.Item>   
+
+                        ))}
+                       
+
+                        </ListGroup>
+
+                     
+
                     </Card.Body>
                 </Card>
             ) : (
