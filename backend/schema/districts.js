@@ -10,6 +10,7 @@ const District = mongoose.Schema({
         {
             year: String,
             sum: Number,
+            activations: [],
             sum_per_area: Number,
             sum_per_shape_area: Number,
         }

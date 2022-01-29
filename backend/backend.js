@@ -100,7 +100,6 @@ app.get("/names", async (req, res) => {
     }
 });
 
-
 // Start Server
 app.listen(port, () => {
     console.log(`Backend server is running on port: ${port}`);

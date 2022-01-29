@@ -34,6 +34,7 @@ const Map = () => {
     // state variables
     const [compareRenderState, setCompareRenderState] = useState(false);
     const [compareStats, setCompareStats] = useState(null);
+    const [newConstruction, setNewConstruction] = useState([]);
 
     // helper functions
     const initializeMap = async (map, mapContainer, mnum) => {
@@ -85,14 +86,32 @@ const Map = () => {
         let difference = null;
         let direction = null;
         let absDifference = null;
+        let count = 0;
+        let temp = [];
+
         if (features.uc_year_A > features.uc_year_B)
         {
+            // find unique activation points
+            for (let i=0; i < features.uc_Activations_A.length; i++)
+            {
+                for (let j=0; j < features.uc_Activations_B.length; j++)
+                {
+                    if ((features.uc_Activations_A[i][0] != features.uc_Activations_B[j][0] || features.uc_Activations_A[i][1] != features.uc_Activations_B[j][1]) && j == features.uc_Activations_B.length-1)
+                    {
+                        temp.push(features.uc_Activations_A[i]);
+                        count = count + 1;
+                    }
+                }
+            }
+            setNewConstruction(temp);
+            // console.log("newConstruction: ", newConstruction);
+
             difference = features.uc_sum_A - features.uc_sum_B;
-            absDifference = Math.abs(difference);
+            // absDifference = Math.abs(difference);
             
             if (difference < 0)
             {
-                direction = `${absDifference} less units have been identified in ${features.uc_year_A} as compared to ${features.uc_year_B} hence deconstruction`;
+                direction = `${count} unique units have been identified in ${features.uc_year_A} as compared to ${features.uc_year_B} hence deconstruction`;
             }
             else if (difference == 0)
             {
@@ -100,17 +119,32 @@ const Map = () => {
             }
             else
             {
-                direction = `${absDifference} more units have been identified in ${features.uc_year_A} as compared to ${features.uc_year_B} hence new construction`;
+                direction = `${count} unique units have been identified in ${features.uc_year_A} as compared to ${features.uc_year_B} hence new construction`;
             }
         }
         else if (features.uc_year_A < features.uc_year_B) 
         {
+            // find unique activation points
+            for (let i=0; i < features.uc_Activations_B.length; i++)
+            {
+                for (let j=0; j < features.uc_Activations_A.length; j++)
+                {
+                    if ((features.uc_Activations_A[j][0] != features.uc_Activations_B[i][0] || features.uc_Activations_A[j][1] != features.uc_Activations_B[i][1]) && j == features.uc_Activations_A.length-1)
+                    {
+                        temp.push(features.uc_Activations_B[i]);
+                        count = count + 1;
+                    }
+                }
+            }
+            setNewConstruction(temp);
+            // console.log("newConstruction: ", newConstruction);
+
             difference = features.uc_sum_B - features.uc_sum_A;
-            absDifference = Math.abs(difference);
+            // absDifference = Math.abs(difference);
             
             if (difference < 0)
             {
-                direction = `${absDifference} less units have been identified in ${features.uc_year_B} as compared to ${features.uc_year_A} hence deconstruction`;
+                direction = `${count} unique units have been identified in ${features.uc_year_B} as compared to ${features.uc_year_A} hence deconstruction`;
             }
             else if (difference == 0)
             {
@@ -118,7 +152,7 @@ const Map = () => {
             }
             else
             {
-                direction = `${absDifference} more units have been identified in ${features.uc_year_B} as compared to ${features.uc_year_A} hence new construction`;
+                direction = `${count} unique units have been identified in ${features.uc_year_B} as compared to ${features.uc_year_A} hence new construction`;
             }
         }
 

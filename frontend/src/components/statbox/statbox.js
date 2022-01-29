@@ -4,7 +4,7 @@ import MapContext from '../../context/mapcontext';
 import axios from 'axios';
 
 // actions import
-import { setUCName, setUCSum, setUCYear } from '../../redux/actions';
+import { setUCName, setUCSum, setUCYear, setActivations} from '../../redux/actions';
 
 // bootstrap imports
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -14,7 +14,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import ListGroup from 'react-bootstrap/ListGroup';
 import ListGroupItem from 'react-bootstrap/ListGroupItem';
 
- 
+
 const Statbox = (props) => {
     const dispatch = useDispatch();
     const map = useContext(MapContext);
@@ -62,10 +62,12 @@ const Statbox = (props) => {
                         if (uc_feature_years[i].year == features.uc_year_A)
                         {
                             dispatch(setUCSum(uc_feature_years[i].sum, 1));
+                            dispatch(setActivations(uc_feature_years[i].activations, 1));
                         }
                         if (uc_feature_years[i].year == features.uc_year_B)
                         {
                             dispatch(setUCSum(uc_feature_years[i].sum, 2));
+                            dispatch(setActivations(uc_feature_years[i].activations, 2));
                         }
                     }
                     
@@ -92,8 +94,6 @@ const Statbox = (props) => {
         });
         map.current.setPaintProperty('uc-layer-highlight', 'fill-opacity', 1);
         map.current.setFilter('uc-layer-highlight', ['!=', 'UC', uc]);
-
-
     }
     
     const getConstructionUnits = (key) => uc_features?.years?.filter((x) => x.year === year)[0]?.[key]?.toFixed(2) ?? 0;

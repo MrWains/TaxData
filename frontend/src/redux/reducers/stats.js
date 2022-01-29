@@ -7,6 +7,8 @@ const initialState = {
     uc_year_B: '2012',
     uc_sum_A: null,
     uc_sum_B: null,
+    uc_Activations_A: null,
+    uc_Activations_B: null,
     uc_features: null
 }
 
@@ -33,6 +35,10 @@ const statReducer = (state = initialState, action) => {
             return { ...state, uc_sum_A: action.payload };
         case "uc_sum_set_B":
             return { ...state, uc_sum_B: action.payload };
+        case "uc_Activations_set_A":
+            return { ...state, uc_Activations_A: action.payload };
+        case "uc_Activations_set_B":
+            return { ...state, uc_Activations_B: action.payload };
         default:
             return state
     }

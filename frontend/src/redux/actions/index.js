@@ -79,3 +79,22 @@ export const setUCSum = (sum, map) => {
     else
         return null;
 }
+
+export const setActivations = (activations, map) => {
+    if(map === 1)
+    {
+        return {
+            type: "uc_Activations_set_A",
+            payload: activations
+        }
+    }
+    else if(map === 2)
+    {
+        return {
+            type: "uc_Activations_set_B",
+            payload: activations
+        };
+    }
+    else
+        return null;
+}
