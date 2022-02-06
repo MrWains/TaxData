@@ -13,6 +13,10 @@
   }
 }
 
+.force-scroll {
+  overflow-y: scroll;
+  height: 350px;
+}
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -83,7 +87,7 @@
 
 .filter-dropdown {
   float: left;
-  }
+}
 
 .statbox-div {
   display: block;
@@ -92,9 +96,18 @@
 .statbox-div .value-badge {
   float: right;
 }
-.value-badge badge{
-color: black;
+.value-badge badge {
+  color: black;
 }
-#badge1,#badge2,#badge3,#badge4,#badge5,#badge6,#badge7,#badge8,#badge9,#badge10{
-color:#000066;
+#badge1,
+#badge2,
+#badge3,
+#badge4,
+#badge5,
+#badge6,
+#badge7,
+#badge8,
+#badge9,
+#badge10 {
+  color: #000066;
 }

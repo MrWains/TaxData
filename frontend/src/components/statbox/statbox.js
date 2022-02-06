@@ -99,7 +99,7 @@ const Statbox = () => {
                                 <Dropdown.Toggle variant="success" id="dropdown-basic" key={features.uc_name??""}>
                                     {features.uc_name ? features.uc_name : "Select a Union Council"}
                                 </Dropdown.Toggle>
-                                <Dropdown.Menu>
+                                <Dropdown.Menu  className="force-scroll">
                                     {uc_names.map((ucName) => (
                                         <Dropdown.Item key={ucName} onClick={(e) => ucDropdownOnClick(ucName)}>{ucName}</Dropdown.Item>
                                     ))}
