@@ -43,6 +43,9 @@
   width: 100%;
   overflow: hidden;
 }
+.compare-button {
+  display: inline-block;
+}
 
 /* /////////////////////// MAP /////////////////////// */
 
@@ -74,12 +77,33 @@
 
 .statandfilterbox-div {
   /* make stat box here and make it right */
-  width: 50%;
-  float: left;
+  width: 40%;
   display: flex;
   flex-direction: column;
+  display: inline-block;
+  margin: 2%;
 }
-
+.top-bar {
+  flex-direction: row;
+  height: 5%;
+  background-color: #2e8b57;
+  color: white;
+  font-size: xx-large;
+}
+.comparison-card {
+  width: 60%;
+  align-self: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+.file-buttons {
+  margin: 0 2px;
+  background-color: green;
+}
+.force-scroll {
+  overflow-y: scroll;
+  height: 350px;
+}
 .filterbox-div {
   display: inline-flex;
   flex: 100%;
@@ -87,7 +111,7 @@
 
 .filter-dropdown {
   float: left;
-  }
+}
 
 .statbox-div {
   display: block;
@@ -96,9 +120,18 @@
 .statbox-div .value-badge {
   float: right;
 }
-.value-badge badge{
-color: black;
+.value-badge badge {
+  color: black;
 }
-#badge1,#badge2,#badge3,#badge4,#badge5,#badge6,#badge7,#badge8,#badge9,#badge10{
-color:#000066;
+#badge1,
+#badge2,
+#badge3,
+#badge4,
+#badge5,
+#badge6,
+#badge7,
+#badge8,
+#badge9,
+#badge10 {
+  color: #000066;
 }

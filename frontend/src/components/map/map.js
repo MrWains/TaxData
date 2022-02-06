@@ -167,6 +167,9 @@ const Map = () => {
     return (
 
         <div>
+            {/* <div className="top-bar">
+                Improving Tax Data Collection
+            </div> */}
             <div className="mapbox-div">
                 <div ref={first_mapContainer} className="map-container" />
             </div>
@@ -198,30 +201,30 @@ const Map = () => {
             </div>
 
             {compareRenderState == true ? (
-                <Card>
+                <Card className = "comparison-card">
                     <Card.Body>
                         <Card.Title>{"COMPARISON"}</Card.Title>
                         {`${compareStats}`}
 
-                        <ListGroup>
+                        <ListGroup className= "force-scroll">
                         
                         {newConstruction.map((nc) => (
                     
                             <ListGroup.Item key={nc}> 
                                 {`(${nc[0].toString()}  ,   ${nc[1].toString()} ) `}
 
-                                <Button variant = "secondary" size = "sm">
+                                <Button className = "file-buttons"  size = "sm">
                                     View File
                                 </Button>
 
-                                <Button variant = "secondary" size = "sm">
+                                <Button className = "file-buttons" size = "sm">
                                     Accept Proof
                                 </Button>
-                                <Button variant = "secondary" size = "sm">
+                                <Button className = "file-buttons"  size = "sm">
                                     Reject Proof
                                 </Button>
 
-                                <Button variant = "secondary" size = "sm">
+                                <Button className = "file-buttons" size = "sm">
                                     Measure Height 
                                 </Button>
                             </ListGroup.Item>   
