@@ -4,7 +4,7 @@ import MapContext from "../../context/mapcontext";
 import axios from "axios";
 
 // actions import
-import { setUCName } from "../../redux/actions";
+import { setUCNameflow1and3 } from "../../redux/actions";
 
 // bootstrap imports
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -89,7 +89,7 @@ const Statbox = () => {
   const ucDropdownOnClick = (uc) => {
     // console.log("lmao i just got clicked");
     console.log("Inside OnClick: " + uc);
-    dispatch(setUCName(uc));
+    dispatch(setUCNameflow1and3(uc));
     console.log("Flying to new UC");
     const features = map.current.querySourceFeatures("uc-layer", {
       sourceLayer: "Union_Council-bi1iuv",
@@ -140,7 +140,7 @@ const Statbox = () => {
           break;
         }
       }
-      dispatch(setUCName(uc_names[targetIndex]));
+      dispatch(setUCNameflow1and3(uc_names[targetIndex]));
 
       
       // // check if point is an activation or not, if yes thne render pdf button

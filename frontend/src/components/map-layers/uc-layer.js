@@ -1,5 +1,5 @@
 import mapboxgl from "mapbox-gl";
-import { setCoordinates, setUCName } from "../../redux/actions";
+import { setCoordinatesflow1and3, setUCNameflow1and3, setCoordinates, setUCName } from "../../redux/actions";
 
 const UC_LAYERID = "uc-layer";
 const UC_HIGHTLIGHT_LAYERID = "uc-layer-highlight";
@@ -11,8 +11,6 @@ const SRC_LAYER = "Union_Council-bi1iuv";
  * @param { Mapbox GL Map} map The Mapbox GL Map instance.
  * @param { useDipatch object} dispatch dispatcher for sending signals to redux store
  */
-
- let hoveredStateId = null;
 const AddUCLayer = (map, dispatch) => {
   console.log("inside AddUCLayer.");
   // actual layer
@@ -36,74 +34,44 @@ const AddUCLayer = (map, dispatch) => {
   map.addLayer({
     id: UC_HIGHTLIGHT_LAYERID,
     source: {
-      type: "vector",
-      url: UC_LAYER_SRC,
+        type: 'vector',
+        url: UC_LAYER_SRC
     },
-    "source-layer": SRC_LAYER,
-    type: "line",
-    // paint: {
-    //   "fill-color": "#FFFFFF",
-    //   "fill-outline-color": "#FFFFFF",
-    //   "fill-opacity": 0,
-    // },
-    
-  paint: {
-    'line-color': '#000000',
-    'line-width': 4,
-    'line-opacity': 0
+    'source-layer': SRC_LAYER,
+    type: 'fill',
+    paint: {
+        'fill-color': '#000000',
+        'fill-outline-color': '#000000',
+        'fill-opacity': 0
     },
     layout: {},
     // filter: ['==', 'UC', e.features[0].properties.UC]
   });
-
 
   // layer interactivity
   map.on("click", "uc-layer", (e) => {
     console.log("lnglat", e.lngLat.toString());
     // setCoordinate(e.lngLat.toString())
     // console.log("Map" + coordinates)
-    new mapboxgl.Popup()
-      .setLngLat(e.lngLat)
-      .setHTML(e.features[0].properties.UC)
-      .addTo(map);
+    // new mapboxgl.Popup()
+    //   .setLngLat(e.lngLat)
+    //   .setHTML(e.features[0].properties.UC)
+    //   .addTo(map);
 
     map.flyTo({
       center: e.lngLat,
     });
 
+    ////////////////////////////////// For flow 1 and 3
+    dispatch(setCoordinatesflow1and3([e.lngLat.wrap().lng.toString() + " , " + e.lngLat.wrap().lat.toString()]));
+    dispatch(setUCNameflow1and3(e.features[0].properties.UC));
 
-    // if (e.features.length > 0) {
-    //   if (hoveredStateId !== null) {
-    //   map.setFeatureState(
-    //   { source: "uc-layer-highlight", id: hoveredStateId },
-    //   { hover: false }
-    //   );
-    //   }
-    //   hoveredStateId = e.features[0].id;
-    //   map.setFeatureState(
-    //   { source:"uc-layer-highlight", id: hoveredStateId },
-    //   { hover: true }
-    //   );
-    //   }
-    
+    ////////////////////////////////// For flow 2
+    // dispatch(setCoordinates(e.lngLat.wrap(), num));
+    // dispatch(setUCName(e.features[0].properties.UC, num));
 
- 
-
-    console.log("Wrapped", e.lngLat);
-    dispatch(
-      setCoordinates([
-        e.lngLat.wrap().lng.toString() + " , " + e.lngLat.wrap().lat.toString(),
-      ])
-    );
-
-    dispatch(setUCName(e.features[0].properties.UC));
-
-    map.setPaintProperty("uc-layer-highlight", "line-opacity", 1);
-    map.setFilter("uc-layer-highlight", [
-      "==",
-      "UC",
-      e.features[0].properties.UC,
-    ]);
+    map.setPaintProperty("uc-layer-highlight", "fill-opacity", 1);
+    map.setFilter("uc-layer-highlight", ["!=","UC",e.features[0].properties.UC]);
   });
   console.log("Added UC-Layer to map.");
   return map;
