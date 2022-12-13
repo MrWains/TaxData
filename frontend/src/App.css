@@ -47,21 +47,28 @@
   width: 100%;
   overflow: hidden;
 }
+.compare-button {
+  display: inline-block;
+}
 
 /* /////////////////////// MAP /////////////////////// */
 
 .mapbox-div {
   /* make map left */
-  width: 50%;
+  width: 47%;
   float: left;
+  height: 480px;
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-style: solid;
 }
 
 .map-container {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   align-items: center;
   justify-content: center;
-  display: block;
   flex-direction: column;
 }
 
@@ -74,12 +81,33 @@
 
 .statandfilterbox-div {
   /* make stat box here and make it right */
-  width: 50%;
-  float: left;
+  width: 40%;
   display: flex;
   flex-direction: column;
+  display: inline-block;
+  margin: 2%;
 }
-
+.top-bar {
+  flex-direction: row;
+  height: 5%;
+  background-color: #2e8b57;
+  color: white;
+  font-size: xx-large;
+}
+.comparison-card {
+  width: 60%;
+  align-self: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+.file-buttons {
+  margin: 0 2px;
+  background-color: green;
+}
+.force-scroll {
+  overflow-y: scroll;
+  height: 350px;
+}
 .filterbox-div {
   display: inline-flex;
   flex: 100%;

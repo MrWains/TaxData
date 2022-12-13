@@ -4,7 +4,7 @@ import MapContext from '../../context/mapcontext';
 import axios from 'axios';
 
 // actions import
-import { setCoordinates, setUCName } from '../../redux/actions';
+import { setUCName, setUCSum, setUCYear, setActivations} from '../../redux/actions';
 
 // bootstrap imports
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -15,13 +15,15 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import ListGroupItem from 'react-bootstrap/ListGroupItem';
 
 
-const Statbox = () => {
+const Statbox = (props) => {
     const dispatch = useDispatch();
     const map = useContext(MapContext);
-    const features = useSelector(state => state.status);
     const [uc_names, setUCNames] = useState([]);
     const [uc_features, setUCFeatures] = useState({});
     const [year, setYear] = useState('2012');
+
+    // importing global states
+    const features = useSelector(state => state.status);
 
     useEffect(() => {
         async function getAllNames() {
@@ -43,45 +45,58 @@ const Statbox = () => {
             try {
                 const data = await axios.post("http://localhost:45000/query", {
                     city: "Peshawar",
-                    uc: features.uc_name
+                    uc: props.mnum==1? features.uc_name_A : features.uc_name_B
                 });
-                // console.log(data.data.data[0]);
+
                 setUCFeatures(data.data.data[0]);
-                console.log("UC_Features retrieved.");
+
+                // globally store the features of one UC for comparison
+                if (features.uc_name_A == features.uc_name_B && features.uc_year_A != features.uc_year_B) 
+                {
+                    // extract years' data for the target UC
+                    const uc_feature_years = data.data.data[0].years;
+
+                    // search for yearA and yearB indices and set the sums' global states
+                    for (let i = 0; i < uc_feature_years.length; i++)
+                    {
+                        if (uc_feature_years[i].year == features.uc_year_A)
+                        {
+                            dispatch(setUCSum(uc_feature_years[i].sum, 1));
+                            dispatch(setActivations(uc_feature_years[i].activations, 1));
+                        }
+                        if (uc_feature_years[i].year == features.uc_year_B)
+                        {
+                            dispatch(setUCSum(uc_feature_years[i].sum, 2));
+                            dispatch(setActivations(uc_feature_years[i].activations, 2));
+                        }
+                    }
+                    
+                    // can add count of 2 and increment at each dispath, if count 2, break the loop
+                }
             }
             catch (err) {
                 console.log("error:\n" + err);
             }
         };
         getUCFeatures();
-        // console.log("UseEffec:\n" + uc_features);
-    }, [features.uc_name])
 
+    }, [features.uc_name_A, features.uc_name_B, features.uc_year_A, features.uc_year_B])
 
     const ucDropdownOnClick = (uc) => {
-        // console.log("lmao i just got clicked");
-        console.log("Inside OnClick: " + uc);
-         dispatch(setUCName(uc));
-        console.log("Flying to new UC");
+
+        dispatch(setUCName(uc, props.mnum));
+
         const features = map.current.querySourceFeatures('uc-layer', { sourceLayer: 'Union_Council-bi1iuv' });
         const uc_obj = features?.filter((x) => x.properties.UC === uc)[0];
-        
-        console.log("what is this: ", uc_obj.geometry.coordinates[0][0]);
-        dispatch(setCoordinates([uc_obj.geometry.coordinates[0][0][0].toString() + " , " + uc_obj.geometry.coordinates[0][0][1].toString(),]))
 
         map.current.flyTo({
             center: uc_obj.geometry.coordinates[0][0]
         });
         map.current.setPaintProperty('uc-layer-highlight', 'fill-opacity', 1);
         map.current.setFilter('uc-layer-highlight', ['!=', 'UC', uc]);
-        console.log("flown");
-
-
     }
-
+    
     const getConstructionUnits = (key) => uc_features?.years?.filter((x) => x.year === year)[0]?.[key]?.toFixed(2) ?? 0;
-
-    console.log(uc_features);//.years.filter((x)=>{return x.year===year}));
 
     const getUI = () => {
         return (
@@ -96,10 +111,10 @@ const Statbox = () => {
                         <div class="filterbox-div">
 
                             <Dropdown className="filter-dropdown">
-                                <Dropdown.Toggle variant="success" id="dropdown-basic" key={features.uc_name??""}>
-                                    {features.uc_name ? features.uc_name : "Select a Union Council"}
+                                <Dropdown.Toggle variant="success" id="dropdown-basic" key={features.uc_name ?? ""}>
+                                    {props.mnum==1?(features.uc_name_A ? features.uc_name_A : "Select a Union Council"):(features.uc_name_B ? features.uc_name_B : "Select a Union Council")}
                                 </Dropdown.Toggle>
-                                <Dropdown.Menu  className="force-scroll">
+                                <Dropdown.Menu className="force-scroll">
                                     {uc_names.map((ucName) => (
                                         <Dropdown.Item key={ucName} onClick={(e) => ucDropdownOnClick(ucName)}>{ucName}</Dropdown.Item>
                                     ))}
@@ -110,7 +125,7 @@ const Statbox = () => {
                                 <Dropdown.Toggle variant="success" id="dropdown-basic">{year ? year : "Select a year"}</Dropdown.Toggle>
                                 <Dropdown.Menu>
                                     {uc_features?.years?.map((years) => (
-                                        <Dropdown.Item key={years.year} onClick={(e) => { setYear(years.year) }}>{years.year}</Dropdown.Item>
+                                        <Dropdown.Item key={years.year} onClick={(e) => { setYear(years.year); dispatch(setUCYear(years.year,props.mnum)) }}>{years.year}</Dropdown.Item>
                                     ))}
                                 </Dropdown.Menu>
                             </Dropdown>
@@ -139,17 +154,12 @@ const Statbox = () => {
                             <ListGroup>
                                 <ListGroupItem variant="primary">
                                     Coordinates
-                                    
-                                    { console.log("seeing what we get here: ", features?.coords) }
-                                    <Badge class="value-badge" id="badge1">{features?.coords}</Badge>
-
-
-                                    {/* <Badge class="value-badge" id="badge1">{uc_features?.geometry}</Badge> */}
+                                    <Badge class="value-badge" id="badge1">{ (uc_features?.geometry?.splice(0,2)[0] ?? "") + " , " + (uc_features?.geometry?.splice(0,2)[1] ?? "")  }</Badge>
                                 </ListGroupItem>
 
                                 <ListGroupItem variant="primary">
                                     Union Coucil Name:
-                                    <Badge class="value-badge" id="badge2">{features.uc_name ? features.uc_name : "None Selected"}
+                                    <Badge class="value-badge" id="badge2">{props.mnum==1?(features.uc_name_A ? features.uc_name_A : "None Selected"):(features.uc_name_B ? features.uc_name_B : "None Selected")}
                                     </Badge>
                                 </ListGroupItem>
 
@@ -210,7 +220,7 @@ const Statbox = () => {
                             </ListGroup>
                         </Card.Body>
                     </Card>
-                    </div>
+                </div>
             </body>
         );
     }
