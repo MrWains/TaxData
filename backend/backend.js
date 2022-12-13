@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-require("dotenv").config()
+require("dotenv").config();
 
 // optional packages
 // const joi = require("joi")
@@ -13,94 +13,114 @@ const port = process.env.PORT;
 const district = require("./schema/districts");
 
 // necessary middleware
-var app = express()
+var app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors());
 
 // connect to our database
 mongoose.connect(
-    `mongodb+srv://${process.env.DB_HOST}:${process.env.DB_PASS}@clustertaxdata.e5kue.mongodb.net/TAXDATA?retryWrites=true&w=majority`,
-    { useNewUrlParser: true, useUnifiedTopology: true },
-    (err) => {
-        if (err) {
-            console.log(err);
-            console.log("Mongoose couldn't connect to the database.")
-        }
-        else {
-            console.log("Mongoose successfully connected to the database.")
-        }
-    }
+	`mongodb+srv://${process.env.DB_HOST}:${process.env.DB_PASS}@clustertaxdata.e5kue.mongodb.net/TAXDATA?retryWrites=true&w=majority`,
+	{ useNewUrlParser: true, useUnifiedTopology: true },
+	(err) => {
+		if (err) {
+			console.log(err);
+			console.log("Mongoose couldn't connect to the database.");
+		} else {
+			console.log("Mongoose successfully connected to the database.");
+		}
+	}
 );
 
+const authRoutes = require("./routes/auth");
+app.use("/api/v1/auth", authRoutes);
 
 // REST API Endpoints
 app.get("/", (req, res) => {
-    res.send("Yay!! this works")
+	res.send("Yay!! this works");
 });
 
 app.post("/query", async (req, res) => {
-    console.log("Inside query call");
-    try{
-        const queried = await district.find({
-            city: req.body.city,
-            uc: req.body.uc
-        });
-        if(queried == null)
-            throw "Object not found";
-        console.log("sending response");
-        res.status(200).json({"data": queried});
-    }
-    catch(err){
-        console.log(err);
-        res.json({"error": err});
-    }
+	console.log("Inside query call");
+	try {
+		const queried = await district.find({
+			city: req.body.city,
+			uc: req.body.uc,
+		});
+		if (queried == null) throw "Object not found";
+		console.log("sending response");
+		res.status(200).json({ data: queried });
+	} catch (err) {
+		console.log(err);
+		res.json({ error: err });
+	}
 });
 
 app.post("/add", async (req, res) => {
-    console.log("inside add individual");
-    try {
-        console.log("Setting object");
-        const new_data = new district({
-            city: req.body.city,
-            uc: req.body.uc,
-            area: req.body.area,
-            shape_area: req.body.shape_area,
-            geometry: req.body.geometry,
-            years: req.body.years
-        });
-        console.log("pushing object");
-        const result = await new_data.save();
-        console.log("done")
-        res.status(200).json({
-            msg: result
-        });
-    }
-    catch (err) {
-        console.log(err)
-        res.json({ error: err });
-    }
+	console.log("inside add individual");
+	try {
+		console.log("Setting object");
+		const new_data = new district({
+			city: req.body.city,
+			uc: req.body.uc,
+			area: req.body.area,
+			shape_area: req.body.shape_area,
+			geometry: req.body.geometry,
+			years: req.body.years,
+		});
+		console.log("pushing object");
+		const result = await new_data.save();
+		console.log("done");
+		res.status(200).json({
+			msg: result,
+		});
+	} catch (err) {
+		console.log(err);
+		res.json({ error: err });
+	}
+});
+
+app.get("/namesandgeom", async (req, res) => {
+	console.log("Inside Names call");
+	try {
+		const queried = await district.find({});
+		if (queried == null) throw "Object not found";
+		var data = [];
+		var geos = [];
+		queried.forEach((x) => {
+			data.push(x.uc);
+		});
+		queried.forEach((x) => {
+			geos.push(x.geometry);
+		});
+		console.log("sending response");
+		// console.log(data);
+		res.status(200).json({ names: data, geom: geos });
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({ error: err });
+	}
 });
 
 app.get("/names", async (req, res) => {
-    console.log("Inside Names call");
-    try{
-        const queried = await district.find({});
-        if(queried == null)
-            throw "Object not found";
-        var data = [];
-        queried.forEach((x) => {data.push(x.uc);});
-        console.log("sending response");
-        // console.log(data);
-        res.status(200).json({"names": data});
-    }
-    catch(err){
-        console.log(err);
-        res.status(500).json({"error": err});
-    }
+	console.log("Inside Names call");
+	try {
+		const queried = await district.find({});
+		if (queried == null) throw "Object not found";
+		var data = [];
+		queried.forEach((x) => {
+			data.push(x.uc);
+		});
+		console.log("sending response");
+		// console.log(data);
+		res.status(200).json({ names: data });
+	} catch (err) {
+		console.log(err);
+		res.status(500).json({ error: err });
+	}
 });
 
 // Start Server
 app.listen(port, () => {
-    console.log(`Backend server is running on port: ${port}`);
-})
+	console.log(`Backend server is running on port: ${port}`);
+});

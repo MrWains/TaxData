@@ -4,7 +4,7 @@ import MapContext from "../../../../context/mapcontext";
 import axios from "axios";
 
 // actions import
-import { setCoordinates, setUCName } from "../../../../redux/actions";
+import { setCoordinates, setUCName } from "../redux/actions";
 
 // bootstrap imports
 import "bootstrap/dist/css/bootstrap.min.css";

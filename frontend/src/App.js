@@ -1,12 +1,13 @@
-import logo from "./logo.svg";
 import "./App.css";
-import Map from "./components/map/map";
 import TabsView from "./components/tabs";
+import Login from "./components/auth/login";
 
 function App() {
 	return (
 		<div className="App">
-			<TabsView />
+			<div className="App-header">
+				<Login />
+			</div>
 		</div>
 	);
 }

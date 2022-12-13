@@ -9,7 +9,7 @@ import {
 	setUCSum,
 	setUCYear,
 	setActivations,
-} from "../../../../redux/actions";
+} from "../redux/actions";
 
 // bootstrap imports
 import "bootstrap/dist/css/bootstrap.min.css";

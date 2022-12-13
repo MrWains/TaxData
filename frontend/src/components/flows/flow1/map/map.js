@@ -9,7 +9,7 @@ import addSecALayer from "../map-layers/sec-a-layer";
 import addSecBLayer from "../map-layers/sec-b-layer";
 import addSecCLayer from "../map-layers/sec-c-layer";
 
-import { funname } from "../../../../redux/actions";
+import { funname } from "../redux/actions";
 
 const MAPBOX_ACCESS_TOKEN =
 	"pk.eyJ1IjoibWFoYXNhamlkIiwiYSI6ImNrc292bjNqbjI5MHYydXBjd28yMnFkOXEifQ.5VqjxrsXPEpQJvXD7JKkmA";

@@ -1,4 +1,4 @@
-import Map from "../../map/map";
+import Map from "./map/map";
 
 function Flow1() {
 	return (

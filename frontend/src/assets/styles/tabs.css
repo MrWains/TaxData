@@ -1,17 +1,19 @@
 .custom-tabs {
-    margin-bottom: 15px;
-    padding: 10px;
+    margin-bottom: 15px  !important;
+    padding: 15px !important;
 }
 
 .custom-tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link {
-    color: white;
-    background-color: green;
-    border-right: 1px solid black;
+    color: white !important;
+    background-color: green !important;
+    border-right: 1px solid black !important;
     
 }
 
 .custom-tabs .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
-    color: green;
-    border-right: 1px solid black;
-    border-bottom: 1px solid white;
+    color: green !important;
+    border-right: 3px solid green !important;
+    border-top: 3px solid green !important;
+    border-left: 3px solid green !important;
+    background-color: white !important;
 }
