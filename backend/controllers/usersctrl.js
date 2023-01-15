@@ -4,25 +4,33 @@ const jwt = require("jsonwebtoken");
 const ObjectId = mongoose.Types.ObjectId;
 const bcrypt = require("bcryptjs");
 const SECRET = "secretkey";
+const Utils = require("../utils/utils");
 loginUser = (req, res) => {
   User.findOne({ username: req.body.username }, (err, user) => {
     if (err) {
-      return res.status(500).send("Error on the server.");
+      const errRet = Utils.errorObj(err);
+      return res.status(500).send(errRet);
     }
     if (!user) {
-      return res.status(404).send("No user found.");
+      const errRet = Utils.errorObj("No user found.");
+      return res.status(404).send(errRet);
     }
     const passwordIsValid = bcrypt.compareSync(
       req.body.password,
       user.password
     );
     if (!passwordIsValid) {
-      return res.status(401).send({ auth: false, token: null });
+      const errRet = Utils.errorObj("Password is not valid!");
+      return res.status(401).send(errRet);
     }
     const token = jwt.sign({ id: user._id }, SECRET, {
       expiresIn: 86400, // expires in 24 hours
     });
-    res.status(200).send({ auth: true, token: token });
+    const successRet = Utils.successObj("User successfully logged in!", {
+      auth: true,
+      token: token,
+    });
+    res.status(200).send(successRet);
   });
 };
 
@@ -32,7 +40,8 @@ registerUser = (req, res) => {
   username = req.body.username;
   User.findOne({ username: username }, (err, user) => {
     if (err) {
-      return res.status(500).send("Error on the server.");
+      const errRet = Utils.errorObj(err);
+      return res.status(500).send(errRet);
     }
     if (!user) {
       User.create(
@@ -45,18 +54,22 @@ registerUser = (req, res) => {
         },
         (err, user) => {
           if (err) {
-            return res
-              .status(500)
-              .send("There was a problem registering the user.");
+            const errRet = Utils.errorObj(err);
+            return res.status(500).send(errRet);
           }
           const token = jwt.sign({ id: user._id }, SECRET, {
             expiresIn: 86400, // expires in 24 hours
           });
-          res.status(200).send({ auth: true, token: token });
+          const successRet = Utils.successObj("User successfully registered!", {
+            auth: true,
+            token: token,
+          });
+          res.status(200).send(successRet);
         }
       );
     } else {
-      return res.status(500).send("User already exists.");
+      const errRet = Utils.errorObj("User already exists.");
+      return res.status(500).send(errRet);
     }
   });
 };
