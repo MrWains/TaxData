@@ -33,7 +33,10 @@ mongoose.connect(
 );
 
 const authRoutes = require("./routes/auth");
+
+// Routes
 app.use("/api/v1/auth", authRoutes);
+
 
 // REST API Endpoints
 app.get("/", (req, res) => {

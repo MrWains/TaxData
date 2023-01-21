@@ -1,5 +1,5 @@
 import mapboxgl from "mapbox-gl";
-import { setCoordinates, setUCName } from "../redux/actions";
+import { setCoordinates, setUCName } from "../../../../redux/actions";
 
 const UC_LAYERID = "uc-layer";
 const UC_HIGHTLIGHT_LAYERID = "uc-layer-highlight";
