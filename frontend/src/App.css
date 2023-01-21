@@ -55,9 +55,9 @@
 
 .mapbox-div {
   /* make map left */
-  width: 47%;
+  /* width: 47%; */
   float: left;
-  height: 480px;
+  /* height: 480px; */
   margin-top: 20px;
   margin-left: 20px;
   margin-right: 20px;
@@ -138,4 +138,9 @@
 #badge9,
 #badge10 {
   color: #000066;
+}
+
+.mapboxgl-canvas{
+  width: 100% !important;
+  height: auto !important;
 }
